@@ -38,6 +38,7 @@ export const getUserCart = () => {
     })
     .then((userCart) => {
       console.log('/api/cart/my', {myCartData: userCart});
+      return {myCartData: userCart};
     })
     .catch((reason) => {
       console.log('get user cart', reason);

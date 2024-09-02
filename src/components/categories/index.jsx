@@ -6,8 +6,8 @@ export const Categories = () => {
   return (
     // <div className='flex  flex-wrap gap-3 h-[188px]'>
     <div className='grid grid-rows-2 grid-flow-col gap-3 '>
-      {categories.map((category) => (
-        <Category product={category.product} price={category.price} />
+      {categories.map(({product, price}) => (
+        <Category product={product} price={price} />
       ))}
     </div>
   );

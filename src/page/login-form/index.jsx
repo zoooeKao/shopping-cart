@@ -1,14 +1,14 @@
 import {EyeIcon, LockClosedIcon, UserIcon} from '@heroicons/react/24/outline';
 import {ShoppingBagIcon} from '@heroicons/react/24/solid';
-import {getAllProduct, getAutoCompleteList, getProductDetail, getUserCart, getUserProfile, login} from '../../service/login';
+import {getAllProduct, getAutoCompleteList, getProductDetail, getUserProfile, login} from '../../service/login';
 
 export const loader = async () => {
   await login('emilys', 'emilyspass');
   await getUserProfile();
-  await getUserCart();
+  // await getUserCart();
   await getAutoCompleteList();
   await getAllProduct();
-  await getProductDetail(15);
+  await getProductDetail(1);
   return null;
 };
 
