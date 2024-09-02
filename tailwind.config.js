@@ -5,7 +5,12 @@ export default {
     extend: {
       backgroundColor: {
         main: '#01221d',
-        secondary: '#F4F5F6',
+        'light-grey-secondary': '#F4F5F6',
+        'green-primary': '#07BFA5',
+      },
+      colors: {
+        'red-primary': '#FF6264',
+        'green-primary': '#07BFA5',
       },
     },
   },

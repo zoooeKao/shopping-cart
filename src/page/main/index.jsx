@@ -1,5 +1,5 @@
 import {Bars3Icon, EnvelopeIcon, HomeIcon, MagnifyingGlassIcon, ShoppingBagIcon, ShoppingCartIcon, UserIcon} from '@heroicons/react/24/outline';
-import {UserCircleIcon} from '@heroicons/react/24/solid';
+import {ArrowRightIcon, BoltIcon, UserCircleIcon} from '@heroicons/react/24/solid';
 import banner from '../../assets/img-banner/banner.png';
 import {Categories} from '../../components/categories';
 
@@ -39,12 +39,43 @@ export const Main = () => {
       </header>
       <main>
         <div className='flex flex-col gap-10 mt-6 ml-6' data-desc='container'>
-          <section className='w-full h-[188px] overflow-x-auto'>
+          <section className=' h-[188px] overflow-x-auto'>
             <Categories />
           </section>
-          <section className='w-full h-[275px] overflow-x-auto bg-slate-600'>折扣品</section>
-          <section className='w-full h-[140px] overflow-x-auto bg-slate-600'>優惠券</section>
-          <section className='w-full h-[252px] overflow-x-auto bg-slate-600'>直播間</section>
+          <section className='h-[275px] overflow-x-auto bg-slate-600'>
+            <div className='flex justify-between items-center mx-6'>
+              <div className='flex gap-1 items-center'>
+                <BoltIcon className='size-5 text-red-primary' />
+                <span className='text-lg font-bold'>促銷品</span>
+              </div>
+              <div className='w-[74px] h-[25px] text-white text-center bg-main'>23:59:59</div>
+              <div>
+                <ArrowRightIcon className='size-5 text-green-primary' />
+              </div>
+            </div>
+          </section>
+          <section className='h-[140px] overflow-x-auto bg-slate-600'>
+            <div className='flex justify-between items-center mx-6'>
+              <div className='flex gap-1 items-center'>
+                <BoltIcon className='size-5 text-red-primary' />
+                <span className='text-lg font-bold'>優惠券</span>
+              </div>
+              <div>
+                <ArrowRightIcon className='size-5 text-green-primary' />
+              </div>
+            </div>
+          </section>
+          <section className='h-[252px] overflow-x-auto bg-slate-600'>
+            <div className='flex justify-between items-center mx-6'>
+              <div className='flex gap-1 items-center'>
+                <BoltIcon className='size-5 text-red-primary' />
+                <span className='text-lg font-bold'>直播間</span>
+              </div>
+              <div>
+                <ArrowRightIcon className='size-5 text-green-primary' />
+              </div>
+            </div>
+          </section>
         </div>
       </main>
       <nav className='flex justify-center items-center gap-x-12 mx-6 mt-7 h-14 text-white bg-slate-400'>
