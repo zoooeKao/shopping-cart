@@ -1,10 +1,13 @@
-export const CouponItem = () => {
+export const CouponItem = ({brand, discountPercentage}) => {
   return (
     <>
-      <div className='flex relative items-center w-[324px] h-[96px] bg-red-200 rounded-3xl'>
+      <div className='flex shrink-0 relative items-center w-[324px] h-[80px] bg-red-200 rounded-3xl'>
         <div className='flex items-center gap-6 border-r-2 border-dotted border-black my-5 mx-3 w-3/5 '>
           <div className='size-14 bg-white rounded-2xl'></div>
-          <div className='font-black'>50%折扣</div>
+          <div className='font-black'>
+            <div>{`${brand}'s`}</div>
+            <div>{`${discountPercentage}%折扣`}</div>
+          </div>
         </div>
         <div className='flex justify-center items-center w-2/5 '>
           <button type='button' className='px-5 py-[6px] font-extrabold border-2 border-slate-950 rounded-3xl bg-white'>
