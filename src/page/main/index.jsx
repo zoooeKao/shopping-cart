@@ -2,6 +2,7 @@ import {Bars3Icon, EnvelopeIcon, HomeIcon, MagnifyingGlassIcon, ShoppingBagIcon,
 import {ArrowRightIcon, BoltIcon, UserCircleIcon} from '@heroicons/react/24/solid';
 import banner from '../../assets/img-banner/banner.png';
 import {Categories} from '../../components/categories';
+import {CouponItem} from '../../components/coupon';
 import {DiscountItems} from '../../components/discount-items';
 
 export const loader = async () => {
@@ -44,8 +45,8 @@ export const Main = () => {
             <Categories />
           </section>
 
-          <section className='h-[275px]  bg-slate-600'>
-            <title className='flex justify-between items-center mx-6'>
+          <section className='h-[310px]  bg-slate-600'>
+            <title className='flex justify-between items-center mr-6 mb-4'>
               <div className='flex gap-1 items-center'>
                 <BoltIcon className='size-5 text-red-primary' />
                 <span className='text-lg font-bold'>促銷品</span>
@@ -56,12 +57,14 @@ export const Main = () => {
               </div>
             </title>
             <main className='overflow-x-auto'>
-              <DiscountItems />
+              <div className='h-[278px]'>
+                <DiscountItems />
+              </div>
             </main>
           </section>
 
-          <section className='h-[140px] overflow-x-auto bg-slate-600'>
-            <title className='flex justify-between items-center mx-6'>
+          <section className='h-[140px] overflow-x-auto  bg-white'>
+            <title className='flex justify-between items-center mr-6 mb-4'>
               <div className='flex gap-1 items-center'>
                 <BoltIcon className='size-5 text-red-primary' />
                 <span className='text-lg font-bold'>優惠券</span>
@@ -70,10 +73,15 @@ export const Main = () => {
                 <ArrowRightIcon className='size-5 text-green-primary' />
               </div>
             </title>
+            <main className='overflow-x-auto'>
+              <div className='h-[96px]'>
+                <CouponItem />
+              </div>
+            </main>
           </section>
 
           <section className='h-[252px] overflow-x-auto bg-slate-600'>
-            <title className='flex justify-between items-center mx-6'>
+            <title className='flex justify-between items-center mr-6 mb-4'>
               <div className='flex gap-1 items-center'>
                 <BoltIcon className='size-5 text-red-primary' />
                 <span className='text-lg font-bold'>直播間</span>
@@ -86,7 +94,7 @@ export const Main = () => {
         </div>
       </main>
 
-      <nav className='flex justify-center items-center gap-x-12 mx-6 mt-7 h-14 text-white bg-slate-400'>
+      <nav className='flex justify-center items-center gap-x-12 mr-6 mt-7 h-14 text-white bg-slate-400'>
         <a href='#' className='flex justify-center items-center w-10 h-10 rounded-full bg-teal-400'>
           <HomeIcon className='size-6' />
         </a>

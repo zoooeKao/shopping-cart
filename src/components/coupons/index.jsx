@@ -1,6 +1,6 @@
-import {DiscountItem} from '../discount-item';
+import {CouponItem} from '../coupon';
 
-export const DiscountItems = () => {
+export const CouponItems = () => {
   const discountItems = new Array(30).fill({
     title: 'Essence Mascara Lash Princess',
     brand: 'Essence',
@@ -16,11 +16,5 @@ export const DiscountItems = () => {
     weight: 2,
   });
 
-  return (
-    <div className='flex gap-3'>
-      {discountItems.map(({title, discountPercentage, price, thumbnail}) => (
-        <DiscountItem title={title} discountPercentage={discountPercentage} price={price} thumbnail={thumbnail} />
-      ))}
-    </div>
-  );
+  return <div className='flex gap-3'></div>;
 };
