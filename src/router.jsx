@@ -2,6 +2,7 @@ import {createBrowserRouter} from 'react-router-dom';
 import {App} from './App.jsx';
 import {LoginForm, loader} from './page/login-form/index.jsx';
 import {Main} from './page/main/index.jsx';
+import {Search} from './page/search/index.jsx';
 // import {HomePage, loader} from './page/main/index.jsx';
 
 export const router = createBrowserRouter([
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
         path: 'main',
         element: <Main />,
         // loader: loader,
+      },
+      {
+        path: 'search',
+        element: <Search />,
       },
     ],
   },

@@ -1,4 +1,4 @@
-import {DiscountItem} from '../discount-item';
+import {DiscountCard} from '../discount-card';
 
 export const DiscountItems = () => {
   const discountItems = new Array(30).fill({
@@ -19,7 +19,7 @@ export const DiscountItems = () => {
   return (
     <div className='flex gap-3'>
       {discountItems.map(({title, discountPercentage, price, thumbnail}) => (
-        <DiscountItem title={title} discountPercentage={discountPercentage} price={price} thumbnail={thumbnail} />
+        <DiscountCard title={title} discountPercentage={discountPercentage} price={price} thumbnail={thumbnail} />
       ))}
     </div>
   );

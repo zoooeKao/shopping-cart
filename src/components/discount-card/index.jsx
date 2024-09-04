@@ -1,7 +1,7 @@
 import {HeartIcon} from '@heroicons/react/24/outline';
 import {PlusCircleIcon} from '@heroicons/react/24/solid';
 
-export const DiscountItem = ({title, discountPercentage, price, thumbnail}) => {
+export const DiscountCard = ({title, discountPercentage, price, thumbnail}) => {
   return (
     <>
       <div className='shrink-0 relative pt-3 px-3 w-[154px] h-[228px] rounded-2xl bg-white'>

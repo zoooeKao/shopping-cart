@@ -54,5 +54,3 @@ export const LoginForm = () => {
     </div>
   );
 };
-// underline underline-offset-8 decoration-red-300 decoration-4
-// absolute top-4 left-4

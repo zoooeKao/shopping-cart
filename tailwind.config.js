@@ -12,6 +12,7 @@ export default {
       colors: {
         'red-primary': '#FF6264',
         'green-primary': '#07BFA5',
+        'purple-primary': '#7B61FF',
       },
     },
   },
