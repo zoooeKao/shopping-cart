@@ -1,4 +1,4 @@
-import {SearchCard} from './searchCard';
+import {ProductCard} from '../product-card';
 
 export const SearchCards = () => {
   const discountItems = new Array(30).fill({
@@ -17,11 +17,9 @@ export const SearchCards = () => {
   });
 
   return (
-    // <div className='grid grid-cols-2 grid-flow-col'>
-    // <div className='flex flex-wrap gap-x-[19px] gap-y-[38px]'>
     <div className='grid grid-cols-2 gap-x-[19px] gap-y-[38px] mx-auto'>
       {discountItems.map(({title, discountPercentage, price, thumbnail}) => (
-        <SearchCard title={title} discountPercentage={discountPercentage} price={price} thumbnail={thumbnail} />
+        <ProductCard title={title} discountPercentage={discountPercentage} price={price} thumbnail={thumbnail} />
       ))}
     </div>
   );

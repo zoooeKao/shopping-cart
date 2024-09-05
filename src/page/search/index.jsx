@@ -6,12 +6,12 @@ import {SearchCarouselGroup} from '../../components/search-carousel/searchCarous
 export const Search = () => {
   return (
     <body className='w-full h-dvh px-6'>
-      <header className='mt-14 w-full'>
-        <div className='flex gap-x-4'>
-          <button type='button' className='flex justify-center items-center w-1/6'>
+      <header className='fixed top-0 left-0 z-1000'>
+        <div className='flex gap-x-4 mt-4'>
+          <button type='button' className='flex justify-center items-center'>
             <ArrowLeftIcon className='size-5' />
           </button>
-          <form className='w-5/6 h-full'>
+          <form className='h-full'>
             <label className='flex relative h-[52px] border-2 rounded-2xl  border-zinc-300'>
               <span className='flex justify-center items-center absolute left-4 h-full'>
                 <MagnifyingGlassIcon className='size-5' />
@@ -19,7 +19,7 @@ export const Search = () => {
               <input type='text' placeholder='emilys' defaultValue='emilys' className='w-full h-full pl-12 rounded-2xl  border-zinc-300 ' />
             </label>
           </form>
-          <button type='button' className='flex justify-center items-center w-1/6'>
+          <button type='button' className='flex justify-center items-center'>
             <AdjustmentsHorizontalIcon className='size-5' />
           </button>
         </div>
@@ -29,9 +29,11 @@ export const Search = () => {
           </main>
         </nav>
       </header>
+      <div className='fixed h-[116px] bg-yellow-200 z-10' />
       <main className='mt-6'>
         <SearchCards />
       </main>
     </body>
   );
 };
+// fixed top-0 left-0

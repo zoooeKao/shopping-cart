@@ -27,3 +27,5 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+
+// Q1: 一個網頁有多個 body 和 main 標籤合理嗎
