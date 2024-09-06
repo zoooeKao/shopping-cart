@@ -3,12 +3,13 @@ import {ArrowLeftIcon} from '@heroicons/react/24/solid';
 import {SearchCards} from '../../components/search-card/searchCards';
 import {SearchCarouselGroup} from '../../components/search-carousel/searchCarouselGroup';
 
-export const Search = () => {
+export const SearchMainPage = () => {
   return (
-    <body className='w-full h-dvh px-6'>
-      <header className='fixed top-0 left-0 z-1000'>
-        <div className='flex gap-x-4 mt-4'>
-          <button type='button' className='flex justify-center items-center'>
+    // Question: 為甚麼header的z-index設2不行
+    <body className='relative w-full h-dvh px-6'>
+      <header className='fixed left-0 right-0 top-0 z-10 bg-white'>
+        <div className='flex justify-evenly gap-x-3 mt-4'>
+          <button type='button' className='flex justify-center items-center p-4'>
             <ArrowLeftIcon className='size-5' />
           </button>
           <form className='h-full'>
@@ -19,21 +20,21 @@ export const Search = () => {
               <input type='text' placeholder='emilys' defaultValue='emilys' className='w-full h-full pl-12 rounded-2xl  border-zinc-300 ' />
             </label>
           </form>
-          <button type='button' className='flex justify-center items-center'>
+          <button type='button' className='flex justify-center items-center p-4'>
             <AdjustmentsHorizontalIcon className='size-5' />
           </button>
         </div>
-        <nav className='mt-2'>
+        <nav className='mt-2 px-6'>
           <main className='overflow-x-auto'>
             <SearchCarouselGroup />
           </main>
         </nav>
       </header>
-      <div className='fixed h-[116px] bg-yellow-200 z-10' />
-      <main className='mt-6'>
+      <main className='mt-6 z-1'>
+        <div className='h-[116px] bg-white' />
+        {/* grid */}
         <SearchCards />
       </main>
     </body>
   );
 };
-// fixed top-0 left-0

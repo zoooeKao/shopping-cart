@@ -3,7 +3,7 @@ import {PlusCircleIcon} from '@heroicons/react/24/solid';
 
 export const ProductCard = ({title, discountPercentage, price, thumbnail}) => {
   return (
-    <div className='shrink-0 relative pt-3 px-3 w-[154px] h-[228px] rounded-2xl bg-white z-1'>
+    <div className='shrink-0 relative pt-3 px-3 w-[154px] h-[228px] rounded-2xl bg-white shadow-xl mx-auto'>
       <title className='flex justify-between'>
         <span className='flex justify-center items-center w-[35px] h-[20px] rounded-md font-semibold text-xs text-white bg-red-primary'>{discountPercentage}</span>
         <button type='button'>
