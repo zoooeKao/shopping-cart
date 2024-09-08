@@ -1,5 +1,6 @@
 import {createBrowserRouter} from 'react-router-dom';
 import {App} from './App.jsx';
+import {Product} from './page/cart/product.jsx';
 import {LoginForm, loader} from './page/login-form/index.jsx';
 import {Main} from './page/main/index.jsx';
 import {SearchIndexPage} from './page/search/search-index-page.jsx';
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
       {
         path: 'main',
         element: <Main />,
-        // loader: loader,
+        loader: loader,
       },
       {
         path: 'search',
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: 'search-main',
         element: <SearchMainPage />,
+      },
+      {
+        path: 'product',
+        element: <Product />,
       },
     ],
   },

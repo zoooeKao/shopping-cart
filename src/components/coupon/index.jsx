@@ -14,8 +14,8 @@ export const CouponItem = ({brand, discountPercentage}) => {
             領取
           </button>
         </div>
-        <div className='absolute top-0 left-[60%] size-6 bg-white rounded-full translate-x-[-60%] translate-y-[-50%]' data-desc='coupon-corner'></div>
-        <div className='absolute bottom-0 left-[60%] size-6 bg-white rounded-full translate-x-[-60%] translate-y-[50%]' data-desc='coupon-corner'></div>
+        <div className='absolute top-0 left-[60%] size-6 bg-white rounded-full translate-x-[-60%] translate-y-[-50%]' data-desc='coupon-semi-up-circle'></div>
+        <div className='absolute bottom-0 left-[60%] size-6 bg-white rounded-full translate-x-[-60%] translate-y-[50%]' data-desc='coupon-semi-down-circle'></div>
       </div>
     </>
   );

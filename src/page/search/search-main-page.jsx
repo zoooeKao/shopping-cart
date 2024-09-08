@@ -6,13 +6,14 @@ import {SearchCarouselGroup} from '../../components/search-carousel/searchCarous
 export const SearchMainPage = () => {
   return (
     // Question: 為甚麼header的z-index設2不行
+    // Question: 為什麼header需要單獨設px
     <body className='relative w-full h-dvh px-6'>
-      <header className='fixed left-0 right-0 top-0 z-10 bg-white'>
-        <div className='flex justify-evenly gap-x-3 mt-4'>
+      <header className='fixed left-0 right-0 top-0 z-10 px-6 py-4 bg-white'>
+        <div className='flex'>
           <button type='button' className='flex justify-center items-center p-4'>
             <ArrowLeftIcon className='size-5' />
           </button>
-          <form className='h-full'>
+          <form className=''>
             <label className='flex relative h-[52px] border-2 rounded-2xl  border-zinc-300'>
               <span className='flex justify-center items-center absolute left-4 h-full'>
                 <MagnifyingGlassIcon className='size-5' />
@@ -24,14 +25,14 @@ export const SearchMainPage = () => {
             <AdjustmentsHorizontalIcon className='size-5' />
           </button>
         </div>
-        <nav className='mt-2 px-6'>
+        <nav className='mt-2'>
           <main className='overflow-x-auto'>
             <SearchCarouselGroup />
           </main>
         </nav>
       </header>
       <main className='mt-6 z-1'>
-        <div className='h-[116px] bg-white' />
+        <div className='h-[116px]' data-desc='empty-space-under-header' />
         {/* grid */}
         <SearchCards />
       </main>

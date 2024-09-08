@@ -33,20 +33,20 @@ export const LoginForm = () => {
           </div>
         </div>
         <form className='mt-14 px-5'>
-          <label className='flex relative h-[52px] border-2 rounded-full border-black'>
+          <label className='flex relative h-[52px]'>
             <span className='flex justify-center items-center absolute left-4 h-full'>
               <UserIcon className='size-5' />
             </span>
-            <input type='email' placeholder='emilys' defaultValue='emilys' className='w-full pl-12 border-2 rounded-full border-transparent bg-transparent' />
+            <input type='email' placeholder='email' defaultValue='emilys' className='w-full pl-12 border-2 rounded-full border-black' />
           </label>
-          <label className='flex relative mt-4 h-[52px] border-2 rounded-full border-black'>
+          <label className='flex relative mt-4 h-[52px]'>
             <span className='flex justify-center items-center absolute left-4 h-full'>
               <LockClosedIcon className='size-5' />
             </span>
-            <input type='email' placeholder='emilyspass' defaultValue='emilyspass' className='w-full pl-12 border-2 rounded-full border-transparent bg-transparent' />
-            <span className='flex justify-center items-center absolute right-4 h-full'>
+            <input type='password' placeholder='password' defaultValue='emilyspass' className='w-full pl-12 border-2 rounded-full border-black' />
+            <button className='flex justify-center items-center absolute right-4 h-full'>
               <EyeIcon className='size-5' />
-            </span>
+            </button>
           </label>
           <button className='mt-24 w-full h-[64px] rounded-full  bg-teal-500 text-center text-white text-l font-bold'>送出</button>
         </form>
