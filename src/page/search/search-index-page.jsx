@@ -20,7 +20,7 @@ export const SearchIndexPage = () => {
       </header>
 
       <div className='flex flex-col gap-y-[20px] my-6 pb-6 border-b-2' data-desc='最近搜尋'>
-        <div className='h-8 text-black font-bold'>最近搜尋</div>
+        <div className='text-[18px] font-bold leading-6'>最近搜尋</div>
         {/* TODO */}
         <div className='flex justify-between'>
           <span>富士相機</span>
@@ -43,7 +43,7 @@ export const SearchIndexPage = () => {
       </div>
 
       <div className='flex flex-col' data-desc='趨勢搜尋'>
-        <div className='font-black h-8'>趨勢搜尋</div>
+        <div className='text-[18px] font-bold leading-6 h-8'>趨勢搜尋</div>
         {/* TODO */}
         <Categories layout='grid-cols-2' flow='grid-flow-row' />
       </div>

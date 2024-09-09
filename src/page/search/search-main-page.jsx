@@ -9,8 +9,8 @@ export const SearchMainPage = () => {
     // Question: 為什麼header需要單獨設px
     <body className='relative w-full h-dvh px-6'>
       <header className='fixed left-0 right-0 top-0 z-10 px-6 py-4 bg-white'>
-        <div className='flex'>
-          <button type='button' className='flex justify-center items-center p-4'>
+        <div className='flex gap-4'>
+          <button type='button' className='flex justify-center items-center text-start'>
             <ArrowLeftIcon className='size-5' />
           </button>
           <form className=''>
@@ -21,7 +21,7 @@ export const SearchMainPage = () => {
               <input type='text' placeholder='emilys' defaultValue='emilys' className='w-full h-full pl-12 rounded-2xl  border-zinc-300 ' />
             </label>
           </form>
-          <button type='button' className='flex justify-center items-center p-4'>
+          <button type='button' className='flex justify-center items-center text-end'>
             <AdjustmentsHorizontalIcon className='size-5' />
           </button>
         </div>
