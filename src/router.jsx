@@ -1,12 +1,12 @@
 import {createBrowserRouter} from 'react-router-dom';
 import {App} from './App.jsx';
+import {EmptyCart} from './page/cart/empty-cart.jsx';
 import {Cart} from './page/cart/index.jsx';
-import {LoginForm, loader} from './page/login-form/index.jsx';
-import {Main} from './page/main/index.jsx';
+import {LoginForm} from './page/login-form/index.jsx';
+import {loader, Main} from './page/main/index.jsx';
 import {SearchIndexPage} from './page/search/search-index-page.jsx';
 import {SearchMainPage} from './page/search/search-main-page.jsx';
 import {SearchProductDescription} from './page/search/search-product-description.jsx';
-// import {HomePage, loader} from './page/main/index.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -15,13 +15,13 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <LoginForm />,
+        element: <Main />,
         loader: loader,
       },
       {
-        path: 'main',
-        element: <Main />,
-        loader: loader,
+        path: 'login',
+        element: <LoginForm />,
+        // loader: loader,
       },
       {
         path: 'search',
@@ -39,8 +39,16 @@ export const router = createBrowserRouter([
         path: 'cart',
         element: <Cart />,
       },
+      {
+        path: 'empty-cart',
+        element: <EmptyCart />,
+      },
+      {
+        path: 'empty-order',
+        element: <EmptyCart />,
+      },
     ],
   },
 ]);
 
-// Q1: 一個網頁有多個 body 和 main 標籤合理嗎
+// Question: 更新購物車商品數量要用什麼方法 post? put?

@@ -6,15 +6,18 @@ import {CouponItems} from '../../components/coupons';
 import {DiscountItems} from '../../components/discount-items';
 import {Navbar} from '../../components/nav';
 import {Streams} from '../../components/streams';
-import {getAllProduct, getAutoCompleteList, getProductDetail, getUserCart, getUserProfile, login} from '../../service/login';
+import {getAllProduct, getAutoCompleteList, getProductDetail, getSearchProduct, getUserCart, getUserProfile, login} from '../../service/login';
 
 export const loader = async () => {
-  await login('emilys', 'emilyspass');
+  console.log('from main');
+  // await login('emilys', 'emilyspass');
+  await login('carterb', 'carterbpass');
   await getUserProfile();
   await getUserCart();
   await getAutoCompleteList();
   await getAllProduct();
   await getProductDetail(1);
+  await getSearchProduct('beauty');
   return null;
 };
 
@@ -38,6 +41,7 @@ export const Main = () => {
         </section>
         <section>
           <div className='px-6 w-full h-[207px] rounded-b-2xl bg-main '>
+            {/* Question: 為什麼需要用成變數的方式來匯入 */}
             <img src={imgBanner} alt='banner' className='block w-full h-full' />
           </div>
         </section>

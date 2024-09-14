@@ -6,10 +6,10 @@ import {SearchCarouselGroup} from '../../components/search-carousel/searchCarous
 export const SearchMainPage = () => {
   return (
     // Question: 為甚麼header的z-index設2不行
-    // Question: 為什麼header需要單獨設px
+    // on: 為什麼header需要單獨設px
     <body className='relative w-full h-dvh px-6'>
       <header className='fixed left-0 right-0 top-0 z-10 px-6 py-4 bg-white'>
-        <div className='flex gap-4'>
+        <div className='flex justify-center gap-4'>
           <button type='button' className='flex justify-center items-center text-start'>
             <ArrowLeftIcon className='size-5' />
           </button>

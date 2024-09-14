@@ -63,9 +63,9 @@ export const getAutoCompleteList = () => {
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
-    .then((userCart) => {
-      console.log('/api/product/autocomplete-list?auth=0', {autocompleteData: userCart});
-      return {autocompleteData: userCart};
+    .then((list) => {
+      console.log('/api/product/autocomplete-list?auth=0', {autocompleteData: list});
+      return {autocompleteData: list};
     })
     .catch((reason) => {
       console.log('get Auto CompleteList', reason);
@@ -101,9 +101,18 @@ export const getProductDetail = (productId) => {
     });
 };
 
-export const getProduct = (query) => {
-  const {skip, limit, searchParams} = query;
-  const modifiedSearchParams = `?auth=0&skip=${skip ? skip : '0'}&limit=${limit ? limit : '100'}${searchParams?.size ? `&${searchParams.toString()}` : ''}`;
+export const getSearchProduct = (category) => {
+  // const {skip, limit, searchParams} = query;
+  // const modifiedSearchParams = `?auth=0&skip=${skip ? skip : '0'}&limit=${limit ? limit : '100'}${searchParams?.size ? `&${searchParams.toString()}` : ''}`;
 
-  return fetch(`/api/product${modifiedSearchParams}`);
+  // return fetch(`/api/product${modifiedSearchParams}`);
+  return fetch(`/api/product?category=${category}`)
+    .then((response) => (response.ok ? response.json() : Promise.reject(response)))
+    .then((products) => {
+      console.log(`/api/product/?category=${category}`, {searchCategory: products});
+      return {searchCategory: products};
+    })
+    .catch((reason) => {
+      console.log(`get search beauty fail`, reason);
+    });
 };

@@ -43,7 +43,7 @@ export const SearchIndexPage = () => {
       </div>
 
       <div className='flex flex-col' data-desc='趨勢搜尋'>
-        <div className='text-[18px] font-bold leading-6 h-8'>趨勢搜尋</div>
+        <div className='text-[18px] font-bold leading-6 h-8 mb-4'>趨勢搜尋</div>
         {/* TODO */}
         <Categories layout='grid-cols-2' flow='grid-flow-row' />
       </div>
