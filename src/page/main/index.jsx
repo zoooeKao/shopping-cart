@@ -1,6 +1,5 @@
 import {EnvelopeIcon, ShoppingCartIcon} from '@heroicons/react/24/outline';
 import {ArrowRightIcon, BoltIcon, TicketIcon, UserCircleIcon, VideoCameraIcon} from '@heroicons/react/24/solid';
-import imgBanner from '../../assets/img-banner/banner.png';
 import {Categories} from '../../components/categories';
 import {CouponItems} from '../../components/coupons';
 import {DiscountItems} from '../../components/discount-items';
@@ -23,7 +22,8 @@ export const loader = async () => {
 
 export const Main = () => {
   return (
-    <body className='w-full h-dvh'>
+    <body>
+      {/* <WrapperWithNav bgColor=''> */}
       <header>
         <section className='flex justify-between items-center px-6 py-4 bg-main text-white'>
           <div className='flex gap-3 items-center '>
@@ -41,14 +41,14 @@ export const Main = () => {
         </section>
         <section>
           <div className='px-6 w-full h-[207px] rounded-b-2xl bg-main '>
-            {/* Question: 為什麼需要用成變數的方式來匯入 */}
-            <img src={imgBanner} alt='banner' className='block w-full h-full' />
+            {/* Code review: 為什麼需要用成變數的方式來匯入? 資料夾assets只能用來匯入檔案，資料夾public沒有此限制 */}
+            <img src='img-banner/banner.png' alt='banner' className='block w-full h-full' />
           </div>
         </section>
       </header>
       <main>
         <div className='flex flex-col gap-10 mt-6 ml-6'>
-          <section className='h-[188px] '>
+          <section className='h-[188px]'>
             <main className='overflow-x-auto'>
               <Categories layout='grid-rows-2' flow='grid-flow-col' />
             </main>
@@ -106,6 +106,7 @@ export const Main = () => {
         </div>
       </main>
       <Navbar />
+      {/* </WrapperWithNav> */}
     </body>
   );
 };

@@ -1,20 +1,8 @@
-//   // TODO: 接 API
-//   const categories = new Array(11).fill({product: '照相機', price: 100});
-
-//   return (
-//     <div className={`grid ${layout} ${flow} gap-3`}>
-//       {categories.map(({product, price}) => (
-//         <Category product={product} price={price} />
-//       ))}
-//     </div>
-//   );
-// };
-
 import {CartItem} from '../../components/cart-item';
 import {Navbar} from '../../components/nav';
 
 export const Cart = () => {
-  const myCart = new Array(3).fill({
+  const myCart = new Array(13).fill({
     title: 'Essence Mascara Lash Princess',
     brand: 'Essence',
     category: 'beauty',
@@ -41,8 +29,8 @@ export const Cart = () => {
         ))}
       </div>
 
-      {/* Question: 為什麼會出現Ｙ卷軸 */}
-      <button className='fixed bottom-[82px] left-6 right-6 flex justify-center items-center h-[64px] rounded-2xl font-bold text-lg bg-black text-white'>立即結帳</button>
+      <section className='h-[80px] '></section>
+      <button className='fixed bottom-[70px] left-6 right-6 flex justify-center items-center h-[64px] rounded-2xl font-bold text-lg bg-black text-white'>立即結帳</button>
       <Navbar />
     </div>
   );

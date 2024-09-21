@@ -10,6 +10,8 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    // host: '192.168.1.116',
+    host: '0.0.0.0',
   },
   plugins: [react()],
 });

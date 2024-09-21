@@ -5,8 +5,8 @@ export const Navbar = () => {
   return (
     <>
       {/* Question: 陰影怎麼用 */}
-      <section className='mt-10 h-[62px] w-full' data-desc='empty-space-under-nav' />
-      <nav className='px-6 fixed bottom-0 left-0 right-0 flex justify-between items-center mt-10 h-[62px] rounded-t-3xl text-black bg-white'>
+      <section className='h-[62px] w-full mt-6 bg-white' data-desc='empty-space-under-nav' />
+      <nav className='px-6 fixed bottom-0 left-0 right-0 flex justify-between items-center h-[62px] rounded-t-3xl text-black bg-white'>
         <Link to='/'>
           <button className='flex justify-center items-center size-10 rounded-full focus:bg-teal-400 focus:text-white'>
             <HomeIcon className='size-6' />

@@ -1,22 +1,20 @@
 import {Navbar} from '../../components/nav';
-import emptyOrder from './empty-order.png';
 
 export const EmptyOrder = () => {
   return (
-    // Question: 為什麼會出現Ｙ卷軸
-    <div className='w-full h-dvh px-6 text-center'>
-      <div className='h-full flex flex-col justify-center items-center '>
+    <>
+      <div className='h-[calc(100%-62px)] flex flex-col justify-center items-center '>
         <div className='h-[256px] mx-auto'>
-          <img src={emptyOrder} />
+          <img src='../../../public/empty-order/empty-order.png' />
         </div>
-        <div className='text-2xl font-bold mt-[28px]'>您的購物車是空的</div>
-        <p className='text-gray-400 mt-4'>
+        <div className='mt-[28px] text-2xl font-bold text-center'>您的購物車是空的</div>
+        <p className='mt-4 text-gray-400 text-center'>
           看來您還沒做出選擇。
           <br />
           hello我們去購物吧!
         </p>
       </div>
       <Navbar />
-    </div>
+    </>
   );
 };

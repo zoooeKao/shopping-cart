@@ -4,7 +4,7 @@ import {Navbar} from '../../components/nav';
 
 export const SearchIndexPage = () => {
   return (
-    <body className='w-full h-dvh px-6'>
+    <body className='px-6'>
       <header className='pt-4 bg-white'>
         <form>
           <label className='flex relative mt-4 h-[52px]'>

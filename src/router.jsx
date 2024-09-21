@@ -4,6 +4,7 @@ import {EmptyCart} from './page/cart/empty-cart.jsx';
 import {Cart} from './page/cart/index.jsx';
 import {LoginForm} from './page/login-form/index.jsx';
 import {loader, Main} from './page/main/index.jsx';
+import {EmptyOrder} from './page/order/empty-order.jsx';
 import {SearchIndexPage} from './page/search/search-index-page.jsx';
 import {SearchMainPage} from './page/search/search-main-page.jsx';
 import {SearchProductDescription} from './page/search/search-product-description.jsx';
@@ -45,10 +46,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'empty-order',
-        element: <EmptyCart />,
+        element: <EmptyOrder />,
       },
     ],
   },
 ]);
 
-// Question: 更新購物車商品數量要用什麼方法 post? put?
+// Question: 更新購物車商品數量要用什麼方法 post? put?  put
+// Code review: container 分層
