@@ -1,10 +1,29 @@
 import {CameraIcon, MagnifyingGlassIcon, XMarkIcon} from '@heroicons/react/24/outline';
-import {Categories} from '../../components/categories';
+import {useLoaderData} from 'react-router-dom';
+import {AutoCompleteList} from '../../components/auto-complete-list';
 import {Navbar} from '../../components/nav';
+import {getAutoCompleteList} from '../../service/service';
 
-export const SearchIndexPage = () => {
+export const searchLoader = async () => {
+  console.log('from search');
+  const autoCompleteList = await getAutoCompleteList();
+  return {autoCompleteList};
+};
+
+/**
+ * @type {React.FC}
+ */
+export const SearchPage = () => {
+  /**
+   * @type {{autoCompleteList: import('../../env').AutoCompleteList; allProduct: import('../../env').AllProduct}}
+   */
+  const {
+    autoCompleteList: {brand, category},
+  } = useLoaderData();
+  // console.log('brand', brand, 'category', category);
+
   return (
-    <body className='px-6'>
+    <div className='px-6'>
       <header className='pt-4 bg-white'>
         <form>
           <label className='flex relative mt-4 h-[52px]'>
@@ -44,11 +63,10 @@ export const SearchIndexPage = () => {
 
       <div className='flex flex-col' data-desc='趨勢搜尋'>
         <div className='text-[18px] font-bold leading-6 h-8 mb-4'>趨勢搜尋</div>
-        {/* TODO */}
-        <Categories layout='grid-cols-2' flow='grid-flow-row' />
+        <AutoCompleteList requestQuery='category' layout='grid-cols-2' flow='grid-flow-row' />
       </div>
 
       <Navbar />
-    </body>
+    </div>
   );
 };

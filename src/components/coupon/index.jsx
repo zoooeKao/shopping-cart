@@ -1,12 +1,16 @@
-export const CouponItem = ({brand, discountPercentage}) => {
+/** @param {Object} param0
+ * @param {string} param0.brand
+ * @returns {JSX.Element}
+ */
+export const CouponItem = ({brand}) => {
   return (
     <>
       <div className='flex shrink-0 relative items-center w-[324px] h-[80px] bg-red-200 rounded-3xl'>
-        <div className='flex items-center gap-6 border-r-2 border-dotted border-black my-5 mx-3 w-3/5 '>
+        <div className='flex items-center gap-5 border-r-2 border-dotted border-black my-5 mx-3 w-3/5 '>
           <div className='size-14 bg-white rounded-2xl'></div>
           <div className='font-black'>
-            <div>{`${brand}'s`}</div>
-            <div>{`${discountPercentage}%折扣`}</div>
+            <div className='line-clamp-1'>{brand}</div>
+            <div>50% off</div>
           </div>
         </div>
         <div className='flex justify-center items-center w-2/5 '>

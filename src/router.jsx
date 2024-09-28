@@ -3,38 +3,47 @@ import {App} from './App.jsx';
 import {EmptyCart} from './page/cart/empty-cart.jsx';
 import {Cart} from './page/cart/index.jsx';
 import {LoginForm} from './page/login-form/index.jsx';
-import {loader, Main} from './page/main/index.jsx';
+import {HomePage, homePageLoader} from './page/main/index.jsx';
 import {EmptyOrder} from './page/order/empty-order.jsx';
-import {SearchIndexPage} from './page/search/search-index-page.jsx';
-import {SearchMainPage} from './page/search/search-main-page.jsx';
-import {SearchProductDescription} from './page/search/search-product-description.jsx';
+import {ProductDescription} from './page/product-description/index.jsx';
+import {SearchFilter, searchFilterLoader} from './page/search-filter/index.jsx';
+import {SearchResult, searchResultLoader} from './page/search-result/index.jsx';
+import {SearchPage, searchLoader} from './page/search/index.jsx';
+import {Test, testLoader} from './page/test/test.jsx';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
+      {path: 'test', element: <Test />, loader: testLoader},
       {
         path: '',
-        element: <Main />,
-        loader: loader,
+        element: <HomePage />,
+        loader: homePageLoader,
       },
       {
         path: 'login',
         element: <LoginForm />,
-        // loader: loader,
       },
       {
         path: 'search',
-        element: <SearchIndexPage />,
+        element: <SearchPage />,
+        loader: searchLoader,
       },
       {
-        path: 'search-main',
-        element: <SearchMainPage />,
+        path: 'search-result',
+        element: <SearchResult />,
+        loader: searchResultLoader,
       },
       {
-        path: 'search-product',
-        element: <SearchProductDescription />,
+        path: 'search-filter',
+        element: <SearchFilter />,
+        loader: searchFilterLoader,
+      },
+      {
+        path: 'product-description',
+        element: <ProductDescription />,
       },
       {
         path: 'cart',

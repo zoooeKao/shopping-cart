@@ -1,12 +1,17 @@
 import {ArrowLeftIcon, HeartIcon, ShareIcon} from '@heroicons/react/24/outline';
 import {PlusCircleIcon} from '@heroicons/react/24/solid';
+import {useLocation, useNavigate} from 'react-router-dom';
 
-export const SearchProductDescription = ({}) => {
+export const ProductDescription = ({}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {title, discountPrice, description, thumbnail} = location.state;
+
   return (
     <div className='absolute px-6 pt-4 pb-[80px]'>
       <div className=''>
         <header className='fixed left-6 right-6 top-0 pt-3 flex justify-between bg-white'>
-          <button className='flex justify-center items-center size-8'>
+          <button className='flex justify-center items-center size-8' onClick={() => navigate(-1)}>
             <ArrowLeftIcon className='size-5' />
           </button>
           <div className='flex gap-3'>
@@ -21,10 +26,10 @@ export const SearchProductDescription = ({}) => {
 
         <main>
           {/* TODO: 預留空間 */}
-          <img src='https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png' className='mt-[35px]' />
-          <div className='text-[20px] leading-6 font-black'>Essence Mascara Lash Princess</div>
-          <div className='mt-2 text-green-primary leading-6 font-medium'>$9.99</div>
-          <div className='mt-3 text-justify'>The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.</div>
+          <img src={thumbnail} className='mt-[35px]' />
+          <div className='text-[20px] leading-6 font-black'>{title}</div>
+          <div className='mt-2 text-green-primary leading-6 font-medium'>{`$${discountPrice}`}</div>
+          <div className='mt-3 text-justify'>{description}</div>
         </main>
 
         <nav className='fixed bottom-0 left-0 right-0 px-6 py-[8px] flex justify-between items-center h-[64px] rounded-t-3xl text-white bg-white'>

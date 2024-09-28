@@ -1,29 +1,41 @@
-import {EnvelopeIcon, ShoppingCartIcon} from '@heroicons/react/24/outline';
-import {ArrowRightIcon, BoltIcon, TicketIcon, UserCircleIcon, VideoCameraIcon} from '@heroicons/react/24/solid';
-import {Categories} from '../../components/categories';
+import {ArrowRightIcon, EnvelopeIcon, ShoppingCartIcon} from '@heroicons/react/24/outline';
+import {BoltIcon, TicketIcon, UserCircleIcon, VideoCameraIcon} from '@heroicons/react/24/solid';
+import {useLoaderData} from 'react-router-dom';
+import {AutoCompleteList} from '../../components/auto-complete-list';
 import {CouponItems} from '../../components/coupons';
-import {DiscountItems} from '../../components/discount-items';
 import {Navbar} from '../../components/nav';
-import {Streams} from '../../components/streams';
-import {getAllProduct, getAutoCompleteList, getProductDetail, getSearchProduct, getUserCart, getUserProfile, login} from '../../service/login';
+import {PromotionalList} from '../../components/promotion-list';
+import {Streams} from '../../components/stream-list';
+import {getAllProduct, getAutoCompleteList, getProductDetail, login} from '../../service/service';
 
-export const loader = async () => {
+export const homePageLoader = async () => {
   console.log('from main');
-  // await login('emilys', 'emilyspass');
-  await login('carterb', 'carterbpass');
-  await getUserProfile();
-  await getUserCart();
-  await getAutoCompleteList();
-  await getAllProduct();
-  await getProductDetail(1);
-  await getSearchProduct('beauty');
-  return null;
+  await login('emilys', 'emilyspass');
+  // await login('carterb', 'carterbpass');
+  // await getUserProfile();
+  // await getUserCart();
+  const autoCompleteList = await getAutoCompleteList();
+  const allProduct = await getAllProduct();
+  const productDetail = await getProductDetail(13);
+  // await getSearchProduct('minPrice', 1);
+  return {autoCompleteList, allProduct, productDetail};
+  // return {autoCompleteList: getAutoCompleteList(), allProduct: getAllProduct()};
+  // return getAutoCompleteList();
 };
 
-export const Main = () => {
+/**
+ * @type {React.FC}
+ */
+export const HomePage = () => {
+  /** @type {{autoCompleteList: import('../../env').AutoCompleteList; allProduct: import('../../env').AllProduct}} */
+  const {
+    autoCompleteList: {brand, category},
+    allProduct: {products, total},
+  } = useLoaderData();
+  // console.log('brand', brand, 'category', category, 'products', products, 'total', total);
+
   return (
-    <body>
-      {/* <WrapperWithNav bgColor=''> */}
+    <>
       <header>
         <section className='flex justify-between items-center px-6 py-4 bg-main text-white'>
           <div className='flex gap-3 items-center '>
@@ -48,14 +60,14 @@ export const Main = () => {
       </header>
       <main>
         <div className='flex flex-col gap-10 mt-6 ml-6'>
-          <section className='h-[188px]'>
-            <main className='overflow-x-auto'>
-              <Categories layout='grid-rows-2' flow='grid-flow-col' />
-            </main>
+          <section className='h-[188px]' data-desc='brand-list'>
+            <div className='overflow-x-auto'>
+              <AutoCompleteList requestQuery='brand' layout='grid-rows-2' flow='grid-flow-col' />
+            </div>
           </section>
 
-          <section className='h-[310px]'>
-            <title className='flex justify-between items-center mr-6 mb-4'>
+          <section className='h-[310px]' data-desc='promotional-list'>
+            <div className='flex justify-between items-center mr-6 mb-4'>
               <div className='flex gap-1 items-center'>
                 <BoltIcon className='size-5 text-purple-primary' />
                 <span className='text-lg font-bold'>促銷品</span>
@@ -64,16 +76,16 @@ export const Main = () => {
               <button type='button'>
                 <ArrowRightIcon className='size-5 text-green-primary' />
               </button>
-            </title>
-            <main className='overflow-x-auto'>
+            </div>
+            <div className='overflow-x-auto'>
               <div className='h-[278px]'>
-                <DiscountItems />
+                <PromotionalList />
               </div>
-            </main>
+            </div>
           </section>
 
-          <section className='h-[140px]'>
-            <title className='flex justify-between items-center mr-6 mb-4'>
+          <section className='h-[140px]' data-desc='coupon-list'>
+            <div className='flex justify-between items-center mr-6 mb-4'>
               <div className='flex gap-1 items-center'>
                 <TicketIcon className='size-5 text-purple-primary' />
                 <span className='text-lg font-bold'>優惠券</span>
@@ -81,15 +93,15 @@ export const Main = () => {
               <button type='button'>
                 <ArrowRightIcon className='size-5 text-green-primary' />
               </button>
-            </title>
-            <main className='overflow-x-auto'>
+            </div>
+            <div className='overflow-x-auto'>
               <div className='h-[96px]'>
                 <CouponItems />
               </div>
-            </main>
+            </div>
           </section>
 
-          <section className='h-[252px]'>
+          <section className='h-[252px]' data-desc='stream-list'>
             <title className='flex justify-between items-center mr-6 mb-4'>
               <div className='flex gap-1 items-center'>
                 <VideoCameraIcon className='size-5 text-purple-primary' />
@@ -99,14 +111,13 @@ export const Main = () => {
                 <ArrowRightIcon className='size-5 text-green-primary' />
               </button>
             </title>
-            <main className='overflow-x-auto '>
+            <div className='overflow-x-auto '>
               <Streams />
-            </main>
+            </div>
           </section>
         </div>
       </main>
       <Navbar />
-      {/* </WrapperWithNav> */}
-    </body>
+    </>
   );
 };
