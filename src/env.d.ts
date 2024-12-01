@@ -127,6 +127,8 @@ const user = {
 
 export type Product = typeof product;
 
+export type UserProfile = typeof user;
+
 export type RequestQuery = 'keyword' | 'brand' | 'category' | 'minPrice' | 'maxPrice' | 'minDiscount' | 'maxDiscount' | 'minRating' | 'maxRating';
 
 export type AutoCompleteList = {
@@ -138,3 +140,5 @@ export type AllProduct = {
   products: Product[];
   total: number;
 };
+
+export type LocalCart = Record<number, number>;

@@ -1,5 +1,10 @@
+/**
+ * @param {string} username
+ * @param {string} password
+ * @returns {Promise<{isLoggedIn: boolean, data: string | null}>}
+ */
 export const login = (username, password) => {
-  return fetch('/api/auth/login', {
+  return fetch('/api/auth/login?auth=0', {
     method: 'POST',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify({username, password}),
@@ -7,132 +12,181 @@ export const login = (username, password) => {
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
-    .then((userProfile) => {
-      // console.log('/api/auth/login', {isLoggedIn: true, data: userProfile});
-      return {isLoggedIn: true, data: userProfile};
+    .then((txt) => {
+      return {isLoggedIn: true, data: txt};
     })
-    .catch((reason) => {
-      console.log('login fail', reason);
+    .catch(() => {
+      return {isLoggedIn: false, data: null};
     });
 };
 
+export const logout = () => {
+  return fetch('/api/auth/logout?auth=0', {
+    method: 'POST',
+  })
+    .then((response) => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then((txt) => {
+      return {isLoggedOut: true, data: txt};
+    })
+    .catch(() => {
+      return {isLoggedOut: false, data: null};
+    });
+};
+
+// id
 export const getUserProfile = () => {
-  return fetch('/api/auth/profile')
+  return fetch('/api/auth/profile?auth=0')
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
     .then((userProfile) => {
-      // console.log('/api/auth/profile', {isLoggedIn: true, profileData: userProfile});
       return {isLoggedIn: true, profileData: userProfile};
     })
-    .catch((reason) => {
-      console.log('get profile', reason);
+    .catch(() => {
+      return {isLoggedIn: false, profileData: []};
     });
 };
 
-// 取得購物車有什麼產品
-export const getUserCart = () => {
+/**
+ * @returns {Promise<{id: number, userId: number, products: number[]}>}
+ */
+export const getMyCart = () => {
   return fetch('/api/cart/my')
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
     .then((userCart) => {
-      console.log('/api/cart/my', {myCartData: userCart});
-      return {myCartData: userCart};
+      // { id: 21, userId: 1, products: []}
+      // Question: 為甚比上去沒有顯示型別
+      console.log('userCart', userCart);
+      return userCart;
     })
     .catch((reason) => {
-      console.log('get user cart', reason);
+      console.log('api getMyCart fail', reason);
+      return {id: null, userId: null, products: []};
     });
 };
 
-// hold on
-export const updateCart = (userId, cartId, currentCart) => {
-  return fetch(`/api/cart/${cartId}`, {
+// id !== userId
+/**
+ * @param {number} id
+ * @param {string[]} myCart
+ * @returns
+ */
+export const updateCart = (id, myCart) => {
+  return fetch(`/api/cart/${id}`, {
     method: 'PUT',
     headers: {'content-type': 'application/json'},
-    body: JSON.stringify({
-      userId: userId,
-      products: currentCart,
-    }),
-  });
+    body: JSON.stringify({products: myCart}),
+  })
+    .then((response) => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .catch((reason) => {
+      console.log('api updateCart fail', reason);
+      return [];
+    });
+};
+
+export const delCart = (id) => {
+  return fetch(`/api/cart/${id}`, {
+    method: 'DELETE',
+    headers: {'content-type': 'application/json'},
+  })
+    .then((response) => {
+      return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then((result) => {
+      // { id: 21, userId: 1, products: []}
+      return result;
+    })
+    .catch((reason) => {
+      console.log('api delCart fail', reason);
+      return [];
+    });
 };
 
 // 品牌(brand):32 及分類(category):11
+/**
+ * @returns {Promise<import("../env").AutoCompleteList>}
+ */
 export const getAutoCompleteList = () => {
-  return fetch('/api/product/autocomplete-list')
+  return fetch('/api/product/autocomplete-list?auth=0')
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
-    .then((list) => {
-      // console.log('/api/product/autocomplete-list?auth=0', {autocompleteData: list});
-      return list;
+    .then((brandCategoryList) => {
+      // { brand: string[]; category: string[] }
+      return brandCategoryList;
     })
     .catch((reason) => {
-      console.log('get Auto CompleteList', reason);
+      console.log('api getAutoCompleteList fail', reason);
+      return {brand: [], category: []};
     });
 };
 
+// Code review: assertion
+/**
+ * @returns {'abc'}
+ */
+function foo() {
+  const str = 'abcd';
+  return /** @type {'abc'} */ (str);
+}
+
 // 12個產品，total是100
+/**
+ * @returns {Promise<import("../env").AllProduct>}
+ */
 export const getAllProduct = () => {
-  return fetch('/api/product')
+  return fetch('/api/product?auth=0')
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
-    .then((product) => {
-      // console.log('/api/product', {allProduct: product});
-      // product.products.map(({tags}) => console.log(tags));
-      return product;
+    .then((allProducts) => {
+      // { products: Product[]; total: number }
+      return allProducts;
     })
     .catch((reason) => {
       console.log('get All Product', reason);
+      return {products: [], total: 0};
     });
 };
 
+/**
+ * @param {string} productId
+ * @returns {Promise<Pick<import("../env").Product, 'title' | 'price' | 'thumbnail' | 'brand'>>}
+ */
 export const getProductDetail = (productId) => {
-  return fetch(`/api/product/${productId}`)
+  return fetch(`/api/product/${productId}?auth=0`)
     .then((response) => {
       return response.ok ? response.json() : Promise.reject(response);
     })
-    .then((product) => {
-      // console.log(`/api/product/${productId}`, {productId: product});
-      return product;
-    })
-    .catch((reason) => {
-      console.log('get product detail', reason);
+    .then(({title, price, thumbnail, brand}) => {
+      // product's payload
+      return {title, price, thumbnail, brand};
     });
+  // .catch((reason) => {
+  //   console.log('get product detail', reason);
+  //   return {title: null, price: null, thumbnail: null, brand: null};
+  // });
 };
 
-// backup
-// // export const getSearchProduct = (requestQuery, requestValue, requestQuery1 = null, requestValue1 = null, requestQuery2 = null, requestValue2 = null) => {
-// export const getSearchProduct = (requestQuery, requestValue) => {
-//   // const {skip, limit, searchParams} = query;
-//   // const modifiedSearchParams = `?auth=0&skip=${skip ? skip : '0'}&limit=${limit ? limit : '100'}${searchParams?.size ? `&${searchParams.toString()}` : ''}`;
-
-//   // return fetch(`/api/product${modifiedSearchParams}`);
-//   // return fetch(`/api/product?${requestQuery}=${requestValue}&${requestQuery1}=${requestValue1}&${requestQuery2}=${requestValue2}`)
-//   return fetch(`/api/product?${requestQuery}=${requestValue}`)
-//     .then((response) => (response.ok ? response.json() : Promise.reject(response)))
-//     .then((products) => {
-//       console.log(`/api/product/?${requestQuery}=${requestValue}`, {searchCategory: products});
-//       return {requestQuery: products};
-//     })
-//     .catch((reason) => {
-//       console.log(`get search beauty fail`, reason);
-//     });
-// };
-
+/**
+ * @param {URLSearchParams} query
+ * @returns {Promise<import("../env").AllProduct>}
+ */
 export const getSearchProduct = (query) => {
-  const baseAPI = `/api/product?`;
-  // console.log(`${baseAPI}${query.toString()}`);
-
-  return fetch(`${baseAPI}${query.toString()}`)
+  return fetch(`/api/product?auth=0&skip=0&limit=100&${query}`)
     .then((response) => (response.ok ? response.json() : Promise.reject(response)))
-    .then((products) => {
-      console.log(`${baseAPI}${query.toString()}`, {requestQuery: products});
-      return products;
-      // return {requestQuery: products};
+    .then((productsPayload) => {
+      // { products: Product[]; total: number }
+      return productsPayload;
     })
     .catch((reason) => {
       console.log(`get search beauty fail`, reason);
+      return {products: [], total: null};
     });
 };

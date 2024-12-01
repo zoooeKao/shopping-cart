@@ -2,7 +2,10 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "checkJs": true,
-    "strict": true
+    "strict": true,
+    "target": "eS2015",
+    "lib": ["es2015", "es2017", "dom", "DOM.Iterable"],
+    "module": "commonjs"
   },
   "include": ["src", "vite-env.d.ts"]
 }

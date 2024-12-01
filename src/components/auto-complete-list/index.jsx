@@ -1,5 +1,5 @@
-import {useLoaderData} from 'react-router-dom';
-import {AutoCompleteItem} from '../auto-complete-item';
+import {TagIcon} from '@heroicons/react/24/solid';
+import {Link, useLoaderData} from 'react-router-dom';
 
 /** @param {Object} param0
  * @param {'brand' | 'category'} param0.requestQuery
@@ -13,12 +13,21 @@ export const AutoCompleteList = ({requestQuery, layout, flow}) => {
    */
   const {
     autoCompleteList: {brand, category},
-  } = useLoaderData();
+  } = /** @type {import('../../page/main').ReturnHomePageLoader} */ (useLoaderData());
 
   return (
     <div className={`grid ${layout} ${flow} gap-4`}>
       {(requestQuery === 'brand' ? brand : category).map((item) => (
-        <AutoCompleteItem key={item} requestQuery={requestQuery} item={item} />
+        <Link
+          key={item}
+          to={`/products-lists?${requestQuery}=${item}`}>
+          <button className='flex gap-5 items-center justify-center p-4 w-[164px] h-[88px] rounded-2xl bg-light-grey-secondary '>
+            <div className='w-4/5 line-clamp-2 text-start'>{item ?? 'waiting...'}</div>
+            <div className='flex justify-center items-center w-2/5 h-full'>
+              <TagIcon className='size-10 text-green-primary' />
+            </div>
+          </button>
+        </Link>
       ))}
     </div>
   );

@@ -1,30 +1,28 @@
 import {createBrowserRouter} from 'react-router-dom';
 import {App} from './App.jsx';
-import {EmptyCart} from './page/cart/empty-cart.jsx';
-import {Cart} from './page/cart/index.jsx';
+import {Account, accountLoader} from './page/account/index.jsx';
+import {Cart, getMyCartLoader} from './page/cart/index.jsx';
 import {LoginForm} from './page/login-form/index.jsx';
 import {HomePage, homePageLoader} from './page/main/index.jsx';
-import {EmptyOrder} from './page/order/empty-order.jsx';
+import {Order, orderLoader} from './page/order/index.jsx';
 import {ProductDescription} from './page/product-description/index.jsx';
+import {ProductsLists, productsListsLoader} from './page/products-lists/index.jsx';
 import {SearchFilter, searchFilterLoader} from './page/search-filter/index.jsx';
-import {SearchResult, searchResultLoader} from './page/search-result/index.jsx';
 import {SearchPage, searchLoader} from './page/search/index.jsx';
-import {Test, testLoader} from './page/test/test.jsx';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      {path: 'test', element: <Test />, loader: testLoader},
+      {
+        path: 'login',
+        element: <LoginForm />,
+      },
       {
         path: '',
         element: <HomePage />,
         loader: homePageLoader,
-      },
-      {
-        path: 'login',
-        element: <LoginForm />,
       },
       {
         path: 'search',
@@ -32,9 +30,9 @@ export const router = createBrowserRouter([
         loader: searchLoader,
       },
       {
-        path: 'search-result',
-        element: <SearchResult />,
-        loader: searchResultLoader,
+        path: 'products-lists',
+        element: <ProductsLists />,
+        loader: productsListsLoader,
       },
       {
         path: 'search-filter',
@@ -48,18 +46,18 @@ export const router = createBrowserRouter([
       {
         path: 'cart',
         element: <Cart />,
+        loader: getMyCartLoader,
       },
       {
-        path: 'empty-cart',
-        element: <EmptyCart />,
+        path: 'order',
+        element: <Order />,
+        loader: orderLoader,
       },
       {
-        path: 'empty-order',
-        element: <EmptyOrder />,
+        path: 'account',
+        element: <Account />,
+        loader: accountLoader,
       },
     ],
   },
 ]);
-
-// Question: 更新購物車商品數量要用什麼方法 post? put?  put
-// Code review: container 分層
