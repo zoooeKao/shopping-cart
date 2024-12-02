@@ -148,7 +148,13 @@ export const Order = () => {
                   <button
                     onClick={() => setFold(!fold)}
                     className='w-full font-bold'>
-                    {fold ? '更多產品' : '更少產品'}
+                    {/* 當長度大於1時才要顯示'更多產品'/'更少產品' */}
+                    {/* 
+                      fold 
+                      - true : '更多產品'
+                      - false : '更少產品'
+                      */}
+                    {orderedProducts.length === 1 || (fold ? '更多產品' : '更少產品')}
                   </button>
                 </div>
                 <div className='flex justify-between w-full mb-4'>

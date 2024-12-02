@@ -8,6 +8,7 @@ import {toFixedNumber} from '../../model/format/toFixed-number';
 import {coupon, loggedIn} from '../../model/jotai/atom';
 import {clearLocalCart, getLocalCart, setLocalCart} from '../../model/storage/my-cart';
 import {getMyCart, getProductDetail, getUserProfile, updateCart} from '../../service/service';
+import {styles} from '../../style';
 
 /**
  * @typedef {{id: string; title: string; price: number; thumbnail: string; brand: string; quantity: number}} CartItem
@@ -98,16 +99,22 @@ export const Cart = () => {
         (() => {
           const deliveryFee = toFixedNumber(totalTable.subTotal * 0.1);
           return (
-            <div className='absolute px-6 pt-4 pb-[80px]'>
-              <header className='sticky top-0 flex justify-between items-center bg-white'>
-                <button
-                  className='flex justify-center items-center size-8'
-                  onClick={() => setCheckout(false)}>
-                  <ArrowLongLeftIcon className='size-5' />
-                </button>
-                <div className='flex gap-3 text-lg font-semibold'>結帳</div>
-                <div className='size-8' />
+            // <div className='absolute mx-auto max-w-[375px] px-6 pt-4 pb-[80px]'>
+            <div className='w-full h-dvh px-6 pb-4'>
+              <header className='sticky top-0  bg-white'>
+                <div className='pt-8' />
+
+                <div className='flex justify-between items-center pb-4'>
+                  <button
+                    className='flex justify-center items-center size-8'
+                    onClick={() => setCheckout(false)}>
+                    <ArrowLongLeftIcon className='size-5' />
+                  </button>
+                  <div className='flex gap-3 text-lg font-semibold'>結帳</div>
+                  <div className='size-8' />
+                </div>
               </header>
+
               <div>
                 <div className='mb-2 p-4 rounded-3xl shadow-lg'>
                   <div className='mb-2 font-semibold'>項目</div>
@@ -176,36 +183,34 @@ export const Cart = () => {
                   </div>
                 </div>
               </div>
-              <div className='fixed bottom-0 left-0 right-0 px-6 py-[8px] flex justify-between items-center h-[64px] rounded-t-3xl text-white bg-white'>
-                <div>
-                  <button
-                    onClick={() => {
-                      // 透過 '/api/cart/my' 回傳的 { id: 21, userId: 1, products: []}
-                      // 拿到 id 再去 put '/api/cart/${id}'
-                      getMyCart()
-                        .then((cart) => {
-                          return cart.id;
-                        })
-                        .then((cartId) => {
-                          const localCartKeys = Object.entries(getLocalCart())
-                            .map(([id, quantity]) => Array(quantity).fill(Number(id)))
-                            .flat();
-                          return updateCart(cartId, localCartKeys).then((cart) => {
-                            if (cart.id === cartId) {
-                              clearLocalCart();
-                              navigate('/order', {state: {grandTotal: toFixedNumber(totalTable.subTotal + deliveryFee)}});
-                            }
-                          });
+              <div className={`${styles.fixedMaxWidthMaxAuto} bottom-[70px] h-[64px] rounded-2xl font-bold text-lg text-white bg-black`}>
+                <button
+                  onClick={() => {
+                    // 透過 '/api/cart/my' 回傳的 { id: 21, userId: 1, products: []}
+                    // 拿到 id 再去 put '/api/cart/${id}'
+                    getMyCart()
+                      .then((cart) => {
+                        return cart.id;
+                      })
+                      .then((cartId) => {
+                        const localCartKeys = Object.entries(getLocalCart())
+                          .map(([id, quantity]) => Array(quantity).fill(Number(id)))
+                          .flat();
+                        return updateCart(cartId, localCartKeys).then((cart) => {
+                          if (cart.id === cartId) {
+                            clearLocalCart();
+                            navigate('/order', {state: {grandTotal: toFixedNumber(totalTable.subTotal + deliveryFee)}});
+                          }
                         });
-                    }}
-                    className='fixed bottom-[70px] left-6 right-6 h-[64px] rounded-2xl font-bold text-lg text-white bg-black'>
-                    結帳
-                  </button>
-                  <section
-                    className='h-[80px]'
-                    data-desc='墊button底下空間'
-                  />
-                </div>
+                      });
+                  }}
+                  className='flex justify-center items-center w-full h-full'>
+                  結帳
+                </button>
+                <section
+                  className='h-[80px]'
+                  data-desc='墊button底下空間'
+                />
               </div>
               <Navbar />
             </div>
@@ -275,7 +280,8 @@ export const Cart = () => {
                     onClick={() => {
                       isLoggedIn ? setCheckout(true) : navigate('/login', {state: {from: location}});
                     }}
-                    className='mx-auto max-w-[375px] fixed bottom-[70px] left-6 right-6 h-[64px] rounded-2xl font-bold text-lg text-white bg-black'>
+                    // fixed left-0 right-0 max-w-[375px] mx-auto bottom-[70px] h-[64px] rounded-2xl font-bold text-lg text-white bg-black
+                    className={`${styles.fixedMaxWidthMaxAuto} bottom-[70px] h-[64px] rounded-2xl font-bold text-lg text-white bg-black`}>
                     立即結帳
                   </button>
                   <section

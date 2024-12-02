@@ -2,6 +2,7 @@ import {AdjustmentsHorizontalIcon, ArrowLongLeftIcon, MagnifyingGlassIcon} from 
 import {useEffect, useMemo, useState} from 'react';
 import {Link, useLoaderData, useNavigate} from 'react-router-dom';
 import {ProductCardList} from '../../components/product-card-list';
+import {MaxWidth} from '../../components/wrapper/outside-wrapper';
 import {getAllProduct, getAutoCompleteList, getSearchProduct} from '../../service/service';
 import {styles} from '../../style';
 
@@ -47,12 +48,12 @@ export const ProductsLists = () => {
 
   return (
     // method 1: 不透過 z-index
-    <div className='max-w-[375px] mx-auto px-6'>
+    <MaxWidth>
       <section
         className='h-[132px]'
         data-desc='empty-space-under-fixed'
       />
-      <main className='mt-6'>
+      <main className='mt-6 p-6'>
         {proList.length !== 0 ? (
           <ProductCardList
             productList={proList}
@@ -63,8 +64,8 @@ export const ProductsLists = () => {
         )}
       </main>
 
-      <header className='fixed top-0 left-0 right-0 px-4 py-4 bg-white'>
-        <div className='flex justify-center gap-4'>
+      <header className='fixed top-0 left-0 right-0 max-w-[375px] mx-auto py-4 bg-white'>
+        <div className='flex justify-around'>
           <button
             type='button'
             className='flex justify-center items-center text-start'
@@ -94,7 +95,6 @@ export const ProductsLists = () => {
           </button>
         </div>
         <nav className='max-w-[375px] mx-auto mt-2 flex justify-start overflow-x-auto pl-4'>
-          {/* <div className='overflow-x-auto'> */}
           <ul className={`flex flex-nowrap gap-3`}>
             {brandList.length > 0 &&
               brandList.map((item, i) => {
@@ -115,9 +115,8 @@ export const ProductsLists = () => {
                 );
               })}
           </ul>
-          {/* </div> */}
         </nav>
       </header>
-    </div>
+    </MaxWidth>
   );
 };
