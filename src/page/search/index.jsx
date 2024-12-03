@@ -22,7 +22,6 @@ export const SearchPage = () => {
   const navigate = useNavigate();
   const [keyword, setKeywords] = useState('');
   const [searchHistory, setSearchHistory] = useState(/** @type {string[]} **/ ([]));
-  console.log('searchHistory', searchHistory, 'local storage', localStorage.getItem(LOCAL_SEARCH_HISTORY_KEY));
 
   // Code review: local storage 只需在初次載入時讀取，若設為 searchHistory 的初始值，則每次元件載入都會重複取值。
   useEffect(() => {
@@ -36,7 +35,6 @@ export const SearchPage = () => {
     const trimmed = keyword.trim();
     if (trimmed) {
       const updated = [trimmed, ...searchHistory];
-      console.log('updated', updated);
       setSearchHistory(updated);
       // Question: 為什麼存到 local storage 就會自動格式化
       localStorage.setItem(LOCAL_SEARCH_HISTORY_KEY, JSON.stringify(updated));

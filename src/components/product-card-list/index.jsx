@@ -39,7 +39,7 @@ export const ProductCardList = ({productList, style}) => {
           onCancel={handleCancel}
         />
       )}
-      {productList.map(({id, title, discountPercentage, price, thumbnail, description}) => {
+      {productList.map(({id, title, discountPercentage, price, thumbnail, description, images}) => {
         const oriPrice = (price / ((100 - Math.round(discountPercentage)) / 100)).toFixed(2);
         return (
           <div
@@ -47,7 +47,7 @@ export const ProductCardList = ({productList, style}) => {
             className='shrink-0 relative pt-3 px-3 w-[154px] h-[228px] rounded-2xl bg-white shadow-xl mx-auto'>
             <Link
               to='/product-description'
-              state={{id, title, price, description, thumbnail}}>
+              state={{id, title, price, description, thumbnail, images: images[0]}}>
               <div className='flex justify-between'>
                 <span className='flex justify-center items-center w-[35px] h-[20px] rounded-md font-semibold text-xs text-white bg-red-primary'>{Math.round(discountPercentage)}%</span>
                 <button type='button'>

@@ -1,4 +1,5 @@
 import {ArrowLongLeftIcon, MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline';
+import Decimal from 'decimal.js';
 import {useAtom} from 'jotai';
 import {useState} from 'react';
 import {useLoaderData, useLocation, useNavigate} from 'react-router-dom';
@@ -83,10 +84,12 @@ export const Cart = () => {
 
   /** @type {{originalTotal: number, discountTotal: number, subTotal: number}} */
   const totalTable = cartItems.reduce(
-    (totalTable, {price, quantity, brand}) => {
-      const itemTotal = toFixedNumber(price * quantity);
-      totalTable.originalTotal = toFixedNumber(totalTable.originalTotal + itemTotal);
-      totalTable.discountTotal = toFixedNumber(totalTable.discountTotal + (selectedDiscountedBrands.includes(brand) ? toFixedNumber(itemTotal / 2) : 0));
+    (totalTable, {price: _price, quantity, brand}) => {
+      const price = new Decimal(_price);
+      const itemTotal = price.times(quantity);
+      totalTable.originalTotal = toFixedNumber(itemTotal.plus(totalTable.originalTotal));
+      // totalTable.originalTotal = toFixedNumber(totalTable.originalTotal + itemTotal);
+      totalTable.discountTotal = toFixedNumber(totalTable.discountTotal + (selectedDiscountedBrands.includes(brand) ? toFixedNumber(itemTotal.dividedBy(2)) : 0));
       totalTable.subTotal = toFixedNumber(totalTable.originalTotal - totalTable.discountTotal);
       return totalTable;
     },
@@ -97,7 +100,7 @@ export const Cart = () => {
     <MaxWidth>
       {checkout && cartItems.length !== 0 ? (
         (() => {
-          const deliveryFee = toFixedNumber(totalTable.subTotal * 0.1);
+          const deliveryFee = toFixedNumber(new Decimal(totalTable.subTotal).times(0.1));
           return (
             // <div className='absolute mx-auto max-w-[375px] px-6 pt-4 pb-[80px]'>
             <div className='w-full h-dvh px-6 pb-4'>
@@ -119,25 +122,28 @@ export const Cart = () => {
                 <div className='mb-2 p-4 rounded-3xl shadow-lg'>
                   <div className='mb-2 font-semibold'>項目</div>
                   <div className='divide-y'>
-                    {cartItems.map(({id, title, price, thumbnail, quantity}) => (
-                      <div
-                        key={id}
-                        className='flex justify-between py-2'>
-                        <div className='flex'>
-                          <img
-                            src={thumbnail}
-                            alt='商品圖'
-                            className='size-[60px]'></img>
-                          <div className='flex flex-col gap-1'>
-                            <div>{title}</div>
-                            <div className='text-slate-400'>x{quantity}</div>
+                    {cartItems.map(({id, title, price: _price, thumbnail, quantity}) => {
+                      const price = new Decimal(_price);
+                      return (
+                        <div
+                          key={id}
+                          className='flex justify-between py-2'>
+                          <div className='flex'>
+                            <img
+                              src={thumbnail}
+                              alt='商品圖'
+                              className='size-[60px]'></img>
+                            <div className='flex flex-col gap-1'>
+                              <div>{title}</div>
+                              <div className='text-slate-400'>x{quantity}</div>
+                            </div>
+                          </div>
+                          <div>
+                            <div>{`$${price.times(quantity).toFixed(2)}`}</div>
                           </div>
                         </div>
-                        <div>
-                          <div>{`$${(price * quantity).toFixed(2)}`}</div>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
                 <div className='mb-2 p-4 rounded-3xl shadow-lg'>
@@ -183,6 +189,11 @@ export const Cart = () => {
                   </div>
                 </div>
               </div>
+
+              <section
+                className='h-[80px]'
+                data-desc='empty-space-under-button"'
+              />
               <div className={`${styles.fixedMaxWidthMaxAuto} bottom-[70px] h-[64px] rounded-2xl font-bold text-lg text-white bg-black`}>
                 <button
                   onClick={() => {
@@ -207,10 +218,6 @@ export const Cart = () => {
                   className='flex justify-center items-center w-full h-full'>
                   結帳
                 </button>
-                <section
-                  className='h-[80px]'
-                  data-desc='墊button底下空間'
-                />
               </div>
               <Navbar />
             </div>
@@ -236,34 +243,37 @@ export const Cart = () => {
 
           {cartItems.length !== 0 ? (
             <>
-              {cartItems.map(({id, title, price, thumbnail, quantity}) => (
-                <div
-                  key={id}
-                  className='flex justify-between items-center gap-2 mb-2 p-4 rounded-3xl shadow-lg'>
-                  <div className='flex items-center gap-[12px]'>
-                    <img
-                      src={thumbnail}
-                      alt='商品圖'
-                      className='size-[60px]'
-                    />
-                    <div className='flex flex-col'>
-                      <span>{title}</span>
-                      <div className='flex items-center gap-2'>
-                        <button onClick={() => updateQuantity(id, quantity - 1)}>
-                          <MinusCircleIcon className='size-6' />
-                        </button>
-                        <span>{quantity}</span>
-                        <button onClick={() => updateQuantity(id, quantity + 1)}>
-                          <PlusCircleIcon className='size-6' />
-                        </button>
+              {cartItems.map(({id, title, price: _price, thumbnail, quantity}) => {
+                const price = new Decimal(_price);
+                return (
+                  <div
+                    key={id}
+                    className='flex justify-between items-center gap-2 mb-2 p-4 rounded-3xl shadow-lg'>
+                    <div className='flex items-center gap-[12px]'>
+                      <img
+                        src={thumbnail}
+                        alt='商品圖'
+                        className='size-[60px]'
+                      />
+                      <div className='flex flex-col'>
+                        <span>{title}</span>
+                        <div className='flex items-center gap-2'>
+                          <button onClick={() => updateQuantity(id, quantity - 1)}>
+                            <MinusCircleIcon className='size-6' />
+                          </button>
+                          <span>{quantity}</span>
+                          <button onClick={() => updateQuantity(id, quantity + 1)}>
+                            <PlusCircleIcon className='size-6' />
+                          </button>
+                        </div>
                       </div>
                     </div>
+                    <div className='flex flex-col items-center'>
+                      <div>{`$${price.times(quantity).toFixed(2)}`}</div>
+                    </div>
                   </div>
-                  <div className='flex flex-col items-center'>
-                    <div>{`$${(price * quantity).toFixed(2)}`}</div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               <div className='flex justify-between items-center p-3'>
                 <div>
                   品牌折價券: {selectedDiscountedBrands.length !== 0 && <br />} {`${selectedDiscountedBrands.join(',')} 50%`}

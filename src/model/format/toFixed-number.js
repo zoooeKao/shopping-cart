@@ -1,5 +1,5 @@
 /**
- * @param {number} calc
+ * @param {any} calc
  * @return {number}
  */
 export function toFixedNumber(calc) {

@@ -20,10 +20,11 @@ export const AutoCompleteList = ({requestQuery, layout, flow}) => {
       {(requestQuery === 'brand' ? brand : category).map((item) => (
         <Link
           key={item}
-          to={`/products-lists?${requestQuery}=${item}`}>
-          <button className='flex gap-5 items-center justify-center p-4 w-[164px] h-[88px] rounded-2xl bg-light-grey-secondary '>
-            <div className='w-4/5 line-clamp-2 text-start'>{item ?? 'waiting...'}</div>
-            <div className='flex justify-center items-center w-2/5 h-full'>
+          to={`/products-lists?${requestQuery}=${item}`}
+          className='w-full'>
+          <button className='flex gap-3 items-center justify-center p-4 w-full h-[88px] rounded-2xl bg-light-grey-secondary '>
+            <div className='line-clamp-2 text-start'>{item ?? 'waiting...'}</div>
+            <div className='flex justify-center items-center  h-full'>
               <TagIcon className='size-10 text-green-primary' />
             </div>
           </button>

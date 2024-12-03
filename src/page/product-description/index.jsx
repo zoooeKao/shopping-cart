@@ -10,7 +10,7 @@ export const ProductDescription = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // Code review: 先驗證 location.state
-  const {id, title, price, description, thumbnail} = location.state;
+  const {id, title, price, description, thumbnail, images} = location.state;
   const [toAddProduct, setToAddProduct] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
@@ -62,10 +62,10 @@ export const ProductDescription = () => {
             // hide skeleton and remove opacity-0
             setImgLoaded(true);
           }}
-          src={thumbnail}
-          className={`mt-11 w-full h-full object-cover ${imgLoaded ? '' : 'opacity-0 h-82 bg-gray-500/40 animate-pulse'}`}
+          src={images}
+          className={`mt-10 w-full object-cover ${imgLoaded ? 'h-full' : 'opacity-0 h-80 bg-gray-500/40 animate-pulse'}`}
         />
-        <div className='text-[20px] leading-6 font-black'>{title}</div>
+        <div className='mt-2 text-[20px] leading-6 font-black'>{title}</div>
         <div className='mt-2 text-green-primary leading-6 font-medium'>{`$${price}`}</div>
         <div className='mt-3 text-justify'>{description}</div>
       </main>

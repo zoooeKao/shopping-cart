@@ -37,7 +37,7 @@ export const HomePage = () => {
   return (
     <MaxWidth>
       <header className='w-full'>
-        <section className='flex justify-between items-center px-6 py-4 bg-main text-white'>
+        <section className='flex justify-between items-center w-full px-6 py-4 bg-main text-white'>
           <div className='flex gap-3 items-center '>
             {isLoggedIn && userProfile.profileData ? (
               <>
@@ -63,19 +63,14 @@ export const HomePage = () => {
             <ShoppingCartIcon className='size-5' />
           </nav>
         </section>
-        <section className='w-full'>
-          <div className='w-full h-full rounded-b-2xl bg-main '>
-            {/* Code review: 為什麼需要用成變數的方式來匯入? 資料夾assets只能用來匯入檔案，資料夾public沒有此限制 */}
-            <img
-              src='img-banner/banner.png'
-              alt='banner'
-              className='block object-cover w-full h-full'
-            />
-          </div>
-        </section>
+        {/* Code review: 為什麼需要用成變數的方式來匯入? 資料夾assets只能用來匯入檔案，資料夾public沒有此限制 */}
+        <img
+          src='img-banner/banner.png'
+          className='w-full block bg-main rounded-b-2xl'
+        />
       </header>
-      <main>
-        <div className='flex flex-col gap-10 mt-6 ml-6'>
+      <main className='w-full'>
+        <div className='flex flex-col gap-10 w-full mt-6 pl-6'>
           <section
             className='h-[188px]'
             data-desc='brand-list'>
