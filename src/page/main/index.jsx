@@ -1,7 +1,7 @@
 import {ArrowRightIcon, EnvelopeIcon, ShoppingCartIcon} from '@heroicons/react/24/outline';
 import {BoltIcon, TicketIcon, UserCircleIcon, VideoCameraIcon} from '@heroicons/react/24/solid';
 import {useAtom} from 'jotai';
-import {Link, useLoaderData} from 'react-router-dom';
+import {Link, NavLink, useLoaderData} from 'react-router-dom';
 import {AutoCompleteList} from '../../components/auto-complete-list';
 import {CouponItems} from '../../components/coupons';
 import {Navbar} from '../../components/nav';
@@ -59,8 +59,12 @@ export const HomePage = () => {
             )}
           </div>
           <nav className='flex gap-3'>
-            <EnvelopeIcon className='size-5' />
-            <ShoppingCartIcon className='size-5' />
+            <a href='mailto:kaoyw0619@gmail.com'>
+              <EnvelopeIcon className='size-5' />
+            </a>
+            <NavLink to='/cart'>
+              <ShoppingCartIcon className='size-5' />
+            </NavLink>
           </nav>
         </section>
         {/* Code review: 為什麼需要用成變數的方式來匯入? 資料夾assets只能用來匯入檔案，資料夾public沒有此限制 */}

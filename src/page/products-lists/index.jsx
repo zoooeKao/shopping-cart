@@ -37,6 +37,8 @@ export const ProductsLists = () => {
 
     usp.append('keyword', keyword);
     navigate(`?${usp}`);
+
+    setKeyword('');
   };
 
   useEffect(() => {

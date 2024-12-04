@@ -274,12 +274,16 @@ export const Cart = () => {
                   </div>
                 );
               })}
-              <div className='flex justify-between items-center p-3'>
-                <div>
-                  品牌折價券: {selectedDiscountedBrands.length !== 0 && <br />} {`${selectedDiscountedBrands.join(',')} 50%`}
+
+              {totalTable.discountTotal > 0 && (
+                <div className='flex justify-between items-center p-3'>
+                  <div>
+                    品牌折價券: {selectedDiscountedBrands.length !== 0 && <br />} {`${selectedDiscountedBrands.join(',')} 50%`}
+                  </div>
+                  <div className='border p-2 rounded-xl text-red-500'>{`- $${totalTable.discountTotal.toFixed(2)}`}</div>
                 </div>
-                <div className={`border p-2 rounded-xl ${totalTable.discountTotal > 0 ? 'text-red-500' : 'text-black'}`}>{totalTable.discountTotal > 0 ? `- $${totalTable.discountTotal.toFixed(2)}` : totalTable.discountTotal.toFixed(2)}</div>
-              </div>
+              )}
+
               <div>
                 <div className='flex justify-between mt-8 p-4 font-bold'>
                   <div>小計</div>
