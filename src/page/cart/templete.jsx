@@ -1,7 +1,7 @@
 import {useReducer} from 'react';
 
 const reducer = (state, action) => {
-  console.log('state', state, 'action', action);
+  // console.log('state', state, 'action', action);
   switch (action.type) {
     case 'increase':
       return {...state, [action.id]: state[action.id] + 1};
