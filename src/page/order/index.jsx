@@ -1,11 +1,10 @@
-import {useAtom} from 'jotai';
 import {useState} from 'react';
-import {Navigate, useLoaderData, useLocation} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {Navigate, useLoaderData, useLocation, useRouteLoaderData} from 'react-router-dom';
 import {Navbar} from '../../components/nav';
 import {MaxWidth} from '../../components/wrapper/outside-wrapper';
 import {getOriginalTotal} from '../../model/calc/productTotal';
 import {toFixedNumber} from '../../model/format/toFixed-number';
-import {coupon, loggedIn} from '../../model/jotai/atom';
 import {getMyCart, getProductDetail, getUserProfile} from '../../service/service';
 
 /** @typedef {Exclude<Awaited<ReturnType<typeof orderLoader>>, Response>} ReturnOrderLoader */
@@ -70,17 +69,17 @@ export const orderLoader = () => {
  * @type {React.FC}
  */
 export const Order = () => {
-  const [selectedDiscountedBrands, setSelectedDiscountedBrands] = useAtom(coupon);
-  const [isLoggedIn, setIsLoggedIn] = useAtom(loggedIn);
-
   const {orderedProducts, firstName} = /** @type {ReturnOrderLoader} */ (useLoaderData());
+  const couponState = useSelector((state) => state.coupon);
+  const authState = useSelector((state) => state.auth);
+  const profileData = useRouteLoaderData('app');
   const location = useLocation();
 
   const [fold, setFold] = useState(false);
 
   return (
     <MaxWidth>
-      {isLoggedIn ? (
+      {authState ? (
         <div className='w-full h-dvh px-6 pb-4'>
           <div className='sticky top-0 w-full bg-white'>
             <div className='pt-8' />
@@ -159,7 +158,7 @@ export const Order = () => {
                 </div>
                 <div className='flex justify-between w-full mb-4'>
                   <div>{orderedProducts.length}項產品</div>
-                  <div>{`$${toFixedNumber(getOriginalTotal(orderedProducts, selectedDiscountedBrands) * 1.1)}`}</div>
+                  <div>{`$${toFixedNumber(getOriginalTotal(orderedProducts, couponState) * 1.1)}`}</div>
                 </div>
                 <div className='w-full h-[52px] flex justify-center items-center px-4 bg-black text-white rounded-xl'>
                   <button className='w-full font-bold'>收到</button>

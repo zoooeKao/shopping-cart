@@ -263,6 +263,13 @@ export const CartDuplicate = () => {
                         <button onClick={() => updateQuantity(String(id), quantity + 1)}>
                           <PlusCircleIcon className='size-6' />
                         </button>
+                        {/* <button onClick={() => updateQuantity(String(id), quantity - 1)}>
+                          <MinusCircleIcon className='size-6' />
+                        </button>
+                        <span>{quantity}</span>
+                        <button onClick={() => updateQuantity(String(id), quantity + 1)}>
+                          <PlusCircleIcon className='size-6' />
+                        </button> */}
                       </div>
                     </div>
                   </div>

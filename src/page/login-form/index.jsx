@@ -1,19 +1,19 @@
 import {LockClosedIcon, UserIcon} from '@heroicons/react/24/outline';
 import {ShoppingBagIcon} from '@heroicons/react/24/solid';
-import {useAtom} from 'jotai';
 import {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {PopupAddItem} from '../../components/popup-add-item';
 import {Wrapper} from '../../components/wrapper/outside-wrapper';
-import {loggedIn} from '../../model/jotai/atom';
+import {authLogin} from '../../feature/cart/cartSlice';
 import {login} from '../../service/service';
 
 /**
  * @type {React.FC}
  */
 export const LoginForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useAtom(loggedIn);
 
   const [userInfo, setUserInfo] = useState({username: 'emilys', password: 'emilyspass'});
   const location = useLocation();
@@ -30,7 +30,7 @@ export const LoginForm = () => {
 
     login(userInfo.username, userInfo.password).then((result) => {
       if (result.isLoggedIn) {
-        setIsLoggedIn(true);
+        dispatch(authLogin());
         return navigate(`${location.state.from.pathname}`);
       }
       return setHasError(true);

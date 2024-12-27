@@ -1,16 +1,17 @@
-import {useAtom} from 'jotai';
-import {coupon} from '../../model/jotai/atom';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCoupon} from '../../feature/cart/cartSlice';
 
 const discountedBrands = ['Amazon', 'Rolex'];
 
 /** @type {React.FC} */
 export const CouponItems = () => {
-  const [selectedDiscountedBrands, setSelectedDiscountedBrands] = useAtom(coupon);
+  const dispatch = useDispatch();
+  const couponState = useSelector((state) => state.coupon);
 
   return (
     <div className='flex gap-2'>
       {discountedBrands.map((brand, i) => {
-        const hasDiscount = selectedDiscountedBrands.includes(brand);
+        const hasDiscount = couponState.includes(brand);
         return (
           <div
             key={i}
@@ -33,9 +34,7 @@ export const CouponItems = () => {
                 type='button'
                 disabled={hasDiscount}
                 onClick={() => {
-                  setSelectedDiscountedBrands((prev) => {
-                    return [...prev, brand];
-                  });
+                  dispatch(addToCoupon(brand));
                 }}
                 className={`px-5 py-[6px] font-extrabold border-2 border-slate-950 rounded-3xl ${hasDiscount ? 'bg-gray-100' : 'bg-white'}`}>
                 {hasDiscount ? '已領取' : '領取'}

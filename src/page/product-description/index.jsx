@@ -1,12 +1,14 @@
 import {ArrowLongLeftIcon, HeartIcon, ShareIcon} from '@heroicons/react/24/outline';
 import {PlusCircleIcon} from '@heroicons/react/24/solid';
 import {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {PopupAddItem} from '../../components/popup-add-item';
-import {getLocalCart, setLocalCart} from '../../model/storage/my-cart';
+import {increase} from '../../feature/cart/cartSlice';
 import {styles} from '../../style';
 
 export const ProductDescription = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   // Code review: 先驗證 location.state
@@ -16,9 +18,7 @@ export const ProductDescription = () => {
 
   /** @type {(redirect?: boolean) => void} */
   const handleConfirm = (redirect) => {
-    const localCart = /** @type {import('../../env').LocalCart} **/ (getLocalCart());
-    localCart[id] = (localCart[id] || 0) + 1;
-    setLocalCart(localCart);
+    dispatch(increase({itemId: id}));
     redirect ? navigate('/cart') : setToAddProduct(false);
   };
 

@@ -1,14 +1,16 @@
 // @ts-check
+import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {Provider} from 'react-redux';
 import {RouterProvider} from 'react-router-dom';
 import './index.css';
-import {LoggedInContextProvider} from './model/context/provider';
 import {router} from './router.jsx';
+import {store} from './stores/store';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-  <LoggedInContextProvider>
-    <RouterProvider router={router} />
-  </LoggedInContextProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </React.StrictMode>
 );

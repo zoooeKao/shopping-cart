@@ -1,6 +1,6 @@
 import {ArrowRightIcon, EnvelopeIcon, ShoppingCartIcon} from '@heroicons/react/24/outline';
 import {BoltIcon, TicketIcon, UserCircleIcon, VideoCameraIcon} from '@heroicons/react/24/solid';
-import {useAtom} from 'jotai';
+import {useSelector} from 'react-redux';
 import {Link, NavLink, useLoaderData} from 'react-router-dom';
 import {AutoCompleteList} from '../../components/auto-complete-list';
 import {CouponItems} from '../../components/coupons';
@@ -8,14 +8,35 @@ import {Navbar} from '../../components/nav';
 import {ProductCardList} from '../../components/product-card-list';
 import {Streams} from '../../components/stream-list';
 import {MaxWidth} from '../../components/wrapper/outside-wrapper';
-import {loggedIn} from '../../model/jotai/atom';
+import {authLogin, authLogout} from '../../feature/cart/cartSlice';
 import {getAllProduct, getAutoCompleteList, getUserProfile} from '../../service/service';
+import {store} from '../../stores/store';
 import {styles} from '../../style';
 
 /** @typedef {Exclude<Awaited<ReturnType<typeof homePageLoader>>, Response>} ReturnHomePageLoader */
 
+// export const homePageLoader = () => {
+//   return Promise.all([getAutoCompleteList(), getAllProduct(), getUserProfile()]).then(([autoCompleteList, allProduct, userProfile]) => {
+//     return {
+//       autoCompleteList,
+//       allProduct,
+//       userProfile,
+//     };
+//   });
+// };
 export const homePageLoader = () => {
   return Promise.all([getAutoCompleteList(), getAllProduct(), getUserProfile()]).then(([autoCompleteList, allProduct, userProfile]) => {
+    // 解構 userProfile 的內容
+    const {isLoggedIn} = userProfile;
+
+    // 根據 isLoggedIn 狀態分發 action
+    if (isLoggedIn) {
+      store.dispatch(authLogin());
+    } else {
+      store.dispatch(authLogout());
+    }
+
+    // 返回整合後的資料
     return {
       autoCompleteList,
       allProduct,
@@ -32,14 +53,14 @@ export const HomePage = () => {
     allProduct: {products},
     userProfile,
   } = /** @type {ReturnHomePageLoader} */ (useLoaderData());
-  const [isLoggedIn, setIsLoggedIn] = useAtom(loggedIn);
+  const authState = useSelector((state) => state.auth);
 
   return (
     <MaxWidth>
       <header className='w-full'>
         <section className='flex justify-between items-center w-full px-6 py-4 bg-main text-white'>
           <div className='flex gap-3 items-center '>
-            {isLoggedIn && userProfile.profileData ? (
+            {authState && userProfile.profileData ? (
               <>
                 <button>
                   <Link to='/account'>

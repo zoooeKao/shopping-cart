@@ -1,42 +1,30 @@
 import {HeartIcon} from '@heroicons/react/24/outline';
 import {PlusCircleIcon} from '@heroicons/react/24/solid';
 import {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {getLocalCart, setLocalCart} from '../../model/storage/my-cart';
+import {increase} from '../../feature/cart/cartSlice';
 import {PopupAddItem} from '../popup-add-item';
 
 /**
  * @type {React.FC<{productList: (import('../../env').Product)[], style: string }>}
  */
 export const ProductCardList = ({productList, style}) => {
+  const dispatch = useDispatch();
   const [toAddProduct, setToAddProduct] = useState(/** @type {{title: string; id: number} | null} */ (null));
-
-  /**
-   * @param {number} id
-   */
-  const handleConfirm = (id) => {
-    const localCart = /** @type {import('../../env').LocalCart} **/ (getLocalCart());
-    // Code review: 驗證第三方套件zod，辨別 localStorage 拿回的資料是否正確
-    // Code review: JSON.parse 可能 throw error，要放可以反序列化的資料，否則會 throw syntax error。 JSON.parse('"abc"') //=> 'abc'  JSON.stringify('abc') //=> '"abc"'  JSON.parse('abc') //=> syntax error
-    localCart[id] = (localCart[id] || 0) + 1;
-
-    // session vs useContext
-    // Question: 資料的存續與APP存續同步時，孰優孰劣
-    setLocalCart(localCart);
-    setToAddProduct(null);
-  };
-
-  const handleCancel = () => {
-    setToAddProduct(null);
-  };
 
   return (
     <div className={style}>
       {toAddProduct && (
         <PopupAddItem
           message={`確認要將 ${toAddProduct.title} 加入購物車嗎?`}
-          onConfirm={() => handleConfirm(toAddProduct.id)}
-          onCancel={handleCancel}
+          onConfirm={() => {
+            dispatch(increase({itemId: toAddProduct.id}));
+            setToAddProduct(null);
+          }}
+          onCancel={() => {
+            setToAddProduct(null);
+          }}
         />
       )}
       {productList.map(({id, title, discountPercentage, price, thumbnail, description, images}) => {

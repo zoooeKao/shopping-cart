@@ -142,3 +142,7 @@ export type AllProduct = {
 };
 
 export type LocalCart = Record<number, number>;
+
+/** @typedef {Exclude<Awaited<ReturnType<typeof getProfileDataLoader>>, Response>} returnProfileLoader */
+
+export type ReturnProfileLoader = returnProfileLoader;

@@ -1,6 +1,5 @@
-import { useAtom } from 'jotai';
-import { theme } from '../../model/jotai/atom';
-import { delCart } from '../../service/service';
+import {useRouteLoaderData} from 'react-router-dom';
+import {getUserProfile} from '../../service/service';
 
 export const testLoader = async () => {
   console.log('from test');
@@ -12,30 +11,22 @@ export const testLoader = async () => {
   // const allProduct = await getAllProduct();
   // const detail = await getProductDetail(1);
   // await getSearchProduct('keyword=long-lasting');
-  // const userProfile = await getUserProfile();
+  const userProfile = await getUserProfile();
   // const myCart = await getMyCart();
   // const userCart = await getMyCart();
   // const putCart = await updateCart(21, [20, 20, 20]);
-  const deleteCart = await delCart(21);
+  // const deleteCart = await delCart(21);
   // const updateCart = await updateCart(1,{products: []});
-  return {deleteCart};
+  return {userProfile};
 };
 
 export const Test = () => {
-  const [appTheme, setAppTheme] = useAtom(theme);
-  // const {deleteCart} = useLoaderData();
+  const {profileData} = useRouteLoaderData('app');
   // console.log('deleteCart', deleteCart);
   // console.log('userCart', userCart, 'deleteCart', deleteCart);
   // console.log('appTheme', appTheme);
   return (
+    <div>{profileData.firstName}</div>
     // <div className={`${appTheme === 'color' ? 'bg-red-500' : 'bg-white'}`}>
-    <div className={appTheme ? 'bg-red-500' : 'bg-white'}>
-      <button
-        onClick={() => {
-          setAppTheme(!appTheme);
-        }}>
-        切換背景色
-      </button>
-    </div>
   );
 };

@@ -1,84 +1,50 @@
 import {ArrowLongLeftIcon, MinusCircleIcon, PlusCircleIcon} from '@heroicons/react/24/outline';
 import Decimal from 'decimal.js';
-import {useAtom} from 'jotai';
-import {useState} from 'react';
-import {useLoaderData, useLocation, useNavigate} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useLocation, useNavigate, useRouteLoaderData} from 'react-router-dom';
 import {Navbar} from '../../components/nav';
 import {MaxWidth} from '../../components/wrapper/outside-wrapper';
+import {clearCart, decrease, increase} from '../../feature/cart/cartSlice';
 import {toFixedNumber} from '../../model/format/toFixed-number';
-import {coupon, loggedIn} from '../../model/jotai/atom';
-import {clearLocalCart, getLocalCart, setLocalCart} from '../../model/storage/my-cart';
-import {getMyCart, getProductDetail, getUserProfile, updateCart} from '../../service/service';
+import {getMyCart, getProductDetail, updateCart} from '../../service/service';
 import {styles} from '../../style';
 
 /**
  * @typedef {{id: string; title: string; price: number; thumbnail: string; brand: string; quantity: number}} CartItem
  */
 
-/** @typedef {Exclude<Awaited<ReturnType<typeof getMyCartLoader>>, Response>} ReturnCartLoader */
-export const getMyCartLoader = () => {
-  const localCart = getLocalCart();
-
-  if (Object.keys(localCart).length === 0) {
-    return getUserProfile().then((userProfile) => {
-      return {cartItems: [], userProfile};
-    });
-  }
-
-  /**
-   * @type {Promise<CartItem[]>}
-   */
-  const getMyCartDetail = Promise.all(
-    Object.entries(localCart).map(([id, quantity]) =>
-      getProductDetail(id).then((detail) => {
-        const {title, price, thumbnail, brand} = detail;
-        return {id, title, price, thumbnail, brand, quantity};
-      })
-    )
-  );
-
-  return Promise.all([getMyCartDetail, getUserProfile()]).then(([cartItems, userProfile]) => ({
-    cartItems,
-    userProfile,
-  }));
-};
-
 /**
  * @type {React.FC}
  */
 export const Cart = () => {
-  const [selectedDiscountedBrands, setSelectedDiscountedBrands] = useAtom(coupon);
-  const [isLoggedIn, setIsLoggedIn] = useAtom(loggedIn);
-  const {cartItems: _cartItems, userProfile} = /** @type {ReturnCartLoader} */ (useLoaderData());
-  const profileData = userProfile?.profileData;
+  const dispatch = useDispatch();
+  const cartState = useSelector((state) => /** @type {Record<Number, Number>} */ (state.cart));
+  const couponState = useSelector((state) => /** @type {string[]} */ (state.coupon));
+  const authState = useSelector((state) => /** @type {Boolean} */ (state.auth));
+  const {profileData} = useRouteLoaderData('app');
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [cartItems, setCartItems] = useState(_cartItems);
+  const [cartItems, setCartItems] = useState(/** @type {CartItem[]} */ ([]));
   const [checkout, setCheckout] = useState(false);
 
-  /**
-   * @param {string} id
-   * @param {number} updateQuantity
-   */
-  const updateQuantity = (id, updateQuantity) => {
-    // Code review: 注意資料流
-    // localStorage => localCart => cartItems
-    // cartItems => localCart => localStorage
-    const obj = Object.fromEntries(cartItems.map((item) => [item.id, item]));
-    obj[id].quantity = updateQuantity;
-    if (obj[id].quantity === 0) {
-      delete obj[id];
-    }
-    const updateCartItems = Object.values(obj);
-    setCartItems(updateCartItems);
-
-    setLocalCart(Object.fromEntries(updateCartItems.map(({id, quantity}) => [id, quantity])));
-  };
+  useEffect(() => {
+    Promise.all(
+      Object.entries(cartState).map(([id, quantity]) =>
+        getProductDetail(id).then((detail) => {
+          const {title, price, thumbnail, brand} = detail;
+          return {id, title, price, thumbnail, brand, quantity};
+        })
+      )
+    ).then((cartItems) => {
+      return setCartItems(cartItems);
+    });
+  }, [cartState]);
 
   /** @type {()=>void} */
   const clearMyCart = () => {
-    clearLocalCart();
+    dispatch(clearCart());
     setCartItems([]);
   };
 
@@ -89,7 +55,7 @@ export const Cart = () => {
       const itemTotal = price.times(quantity);
       totalTable.originalTotal = toFixedNumber(itemTotal.plus(totalTable.originalTotal));
       // totalTable.originalTotal = toFixedNumber(totalTable.originalTotal + itemTotal);
-      totalTable.discountTotal = toFixedNumber(totalTable.discountTotal + (selectedDiscountedBrands.includes(brand) ? toFixedNumber(itemTotal.dividedBy(2)) : 0));
+      totalTable.discountTotal = toFixedNumber(totalTable.discountTotal + (couponState.includes(brand) ? toFixedNumber(itemTotal.dividedBy(2)) : 0));
       totalTable.subTotal = toFixedNumber(totalTable.originalTotal - totalTable.discountTotal);
       return totalTable;
     },
@@ -185,7 +151,7 @@ export const Cart = () => {
                   </div>
                   <div className=''>
                     <div>地址</div>
-                    <div className=''>{`${profileData.address.address} ${profileData.address.city}, ${profileData.address.stateCode} ${profileData.address.postalCode} ${profileData.address.country} `}</div>
+                    <div className=''>{`${profileData?.address.address} ${profileData?.address.city}, ${profileData?.address.stateCode} ${profileData?.address.postalCode} ${profileData?.address.country} `}</div>
                   </div>
                 </div>
               </div>
@@ -204,12 +170,12 @@ export const Cart = () => {
                         return cart.id;
                       })
                       .then((cartId) => {
-                        const localCartKeys = Object.entries(getLocalCart())
+                        const localCartKeys = Object.entries(cartState)
                           .map(([id, quantity]) => Array(quantity).fill(Number(id)))
                           .flat();
                         return updateCart(cartId, localCartKeys).then((cart) => {
                           if (cart.id === cartId) {
-                            clearLocalCart();
+                            dispatch(clearCart());
                             navigate('/order', {state: {grandTotal: toFixedNumber(totalTable.subTotal + deliveryFee)}});
                           }
                         });
@@ -232,7 +198,7 @@ export const Cart = () => {
               {cartItems.length !== 0 && (
                 <button
                   onClick={() => {
-                    isLoggedIn ? clearMyCart() : navigate('/login', {state: {from: location}});
+                    authState ? clearMyCart() : navigate('/login', {state: {from: location}});
                   }}
                   className='p-2 text-gray-400 border border-gray-400 rounded-xl'>
                   清空
@@ -258,11 +224,11 @@ export const Cart = () => {
                       <div className='flex flex-col'>
                         <span>{title}</span>
                         <div className='flex items-center gap-2'>
-                          <button onClick={() => updateQuantity(id, quantity - 1)}>
+                          <button onClick={() => dispatch(decrease({itemId: id}))}>
                             <MinusCircleIcon className='size-6' />
                           </button>
                           <span>{quantity}</span>
-                          <button onClick={() => updateQuantity(id, quantity + 1)}>
+                          <button onClick={() => dispatch(increase({itemId: id}))}>
                             <PlusCircleIcon className='size-6' />
                           </button>
                         </div>
@@ -278,7 +244,7 @@ export const Cart = () => {
               {totalTable.discountTotal > 0 && (
                 <div className='flex justify-between items-center p-3'>
                   <div>
-                    品牌折價券: {selectedDiscountedBrands.length !== 0 && <br />} {`${selectedDiscountedBrands.join(',')} 50%`}
+                    品牌折價券: {couponState.length !== 0 && <br />} {`${couponState.join(',')} 50%`}
                   </div>
                   <div className='border p-2 rounded-xl text-red-500'>{`- $${totalTable.discountTotal.toFixed(2)}`}</div>
                 </div>
@@ -292,7 +258,7 @@ export const Cart = () => {
                 <div>
                   <button
                     onClick={() => {
-                      isLoggedIn ? setCheckout(true) : navigate('/login', {state: {from: location}});
+                      authState ? setCheckout(true) : navigate('/login', {state: {from: location}});
                     }}
                     // fixed left-0 right-0 max-w-[375px] mx-auto bottom-[70px] h-[64px] rounded-2xl font-bold text-lg text-white bg-black
                     className={`${styles.fixedMaxWidthMaxAuto} bottom-[70px] h-[64px] rounded-2xl font-bold text-lg text-white bg-black`}>
